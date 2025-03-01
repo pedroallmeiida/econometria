@@ -1,0 +1,877 @@
+---
+title: "Econometria Introdução"
+title-slide-attributes:
+  data-background-image: Marca_UEPB.png
+  data-background-size: contain
+  data-background-opacity: "0.15"
+author: "Professor: Pedro M. Almeida-Junior"
+institute: "Universidade Estadual da Paraíba"
+format: 
+  revealjs: 
+    width: 1000
+    margin: 0.1
+    logo: Marca_UEPB.png
+    theme: [default, hscroll.scss]
+    transition: slide
+    background-transition: fade
+    smaller: true
+    scrollable: true
+knitr:
+  opts_chunk:
+    message: false
+    warning: false
+css: hscroll.scss
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+
+
+# Modelo de Regressão Linear Simples
+
+
+## Origem do termo regressão 
+
+<br/>
+
+O termo foi criado por Francis Galton. Em seu artigo, Galton verificou que, embora existisse uma tendência de que pais altos tivessem filhos altos e pais baixos tivessem filhos baixos, a estatura média das crianças nascidas de pais com uma dada altura tendia a mover-se ou "regredir" à altura média da população como um todo. Daí que surgiu o termo regressão usado até hoje. 
+
+
+## Exemplo de Galton no R 
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+# Definir a semente para reprodutibilidade
+set.seed(42)
+
+# Gerar alturas dos pais (média 168 cm, desvio padrão 10 cm)
+parent_height <- rnorm(2000, mean = 168, sd = 10)
+parent_height <- round(parent_height, 0)
+
+# Gerar alturas dos filhos com base na relação linear com ruído
+child_height <- 50 + 0.8 * parent_height + rnorm(2000, mean = 0, sd = 10)
+child_height <- round(child_height, 0)
+
+# Criar um data frame
+data <- data.frame(parent_height, child_height)
+
+# Visualizar as primeiras linhas
+#head(data)
+
+# Ajustar um modelo de regressão linear
+model <- lm(child_height ~ parent_height, data = data)
+
+
+# Plotar os dados e a regressão
+ggplot(data, aes(x = parent_height, y = child_height)) +
+  geom_point(color = "blue", alpha = 0.6, size = 2) +  # Pontos no gráfico
+  geom_smooth(method = "lm", color = "red", se = FALSE) +  # Linha de regressão
+  labs(title = "Regressão de Galton: Altura dos Pais vs Filhos",
+       x = "Altura Média dos Pais (cm)",
+       y = "Altura dos Filhos (cm)") +
+  theme_minimal()
+
+
+```
+
+## Selecionando alturas especificas dos pais
+
+```{r}
+
+## selecionando alturas dos pais especificas
+df_filter = data %>% filter( parent_height %in% c(150, 155, 160, 165, 170, 175,180) )
+ggplot(df_filter, aes(x = parent_height, y = child_height)) +
+  geom_point(color = "blue", alpha = 0.6, size = 2) +  # Pontos no gráfico
+  geom_smooth(method = "lm", color = "red", se = FALSE) +  # Linha de regressão
+  labs(title = "Regressão de Galton: Altura dos Pais vs Filhos",
+       x = "Altura Média dos Pais (cm)",
+       y = "Altura dos Filhos (cm)") +
+  theme_minimal()
+
+```
+
+## Interpretação da regressão 
+
+<br/>
+
+<br/>
+
+A análise de regressão diz respeito ao estudo da dependência de uma variável, variável dependente, em relação a uma ou mais variáveis, as variáveis explicativas, visando estimar e/ou prever o valor médio da variável resposta em termos dos valores conhecidos ou fixados (variáveis explicativas). 
+
+# Modelos de regressão Linear 
+
+## Modelo de regressão Linear simples 
+<hr>
+
+<br/>
+
+Seja $Y$ uma variável de interesse, que vamos denominar de **variável resposta**, e seja $X$ uma **variável explicativa**. 
+O modelo de regressão linear simples descreve a variável $Y$ como sendo uma soma de uma quantidade determinística e uma quantidade aleatória. 
+Neste sentido, o modelo de regressão linear é dado por: 
+
+<br/>
+
+$$
+Y_i = \beta_0 + \beta_1X_{i} + \epsilon_i,  \quad i = 1, \ldots, n. 
+$$
+
+<br/>
+
+em que os parâmetros $\beta_0$ e $\beta_1$ são o intercepto e o coeficiente de regressão, respectivamente. $X$ é a variável explicativa e $\epsilon_i$ é um erro aleatório para
+$i = 1, \ldots,n$.
+
+## Suposições do erro:
+
+<hr>
+
+<br/>
+
+. . .
+
+1.  $\mathbb{E}(\epsilon_i) = 0$ e $\text{Var}(\epsilon_i) = \sigma^2$,
+    para todo $i$ e $0 < \sigma^2 < \infty$.
+
+. . .
+
+2.  $\text{Cov}( \epsilon_i, \epsilon_s ) = 0, \forall i \neq s$.
+
+. . .
+
+3.  $\epsilon_i$ tem distribuição normal.
+
+
+## Distribuição da variável resposta Y 
+
+<br/>
+
+Considere o modelo de regressão linear simples. Então a distribuição de probabilidade de $Y$, correspondente ao valor prefixado, x, é dada por: 
+
+<br/>
+
+<br/>
+
+$$
+Y \sim N(\beta_0 + \beta_1 \, x, \sigma^2). 
+$$
+
+::: {style="height:600px; font-size:25px; margin-left: 5px; margin-right: 5px"}
+## 
+
+**Prova:** Sob o modelo de regressão linear simples, Y é a soma de uma constante, $\beta_0 + \beta_1 x$, com uma variável aleatória $\epsilon$, com distribuição $N(0, \sigma^2)$. Dessa forma, para o valor de x, Y é normal com parâmetros: 
+
+. . .
+
+$$
+\begin{align}
+\mathbb{E}[Y \mid x] &= \mathbb{E}[ \beta_0 + \beta_1 x + \epsilon ] \\
+&=\mathbb{E}[ \beta_0 + \beta_1] x + \mathbb{E}[\epsilon ]  \\
+&= \beta_0 + \beta_1 x + \mathbb{E}[\epsilon ] \\
+&= \beta_0 + \beta_1 x + 0 \\
+&= \beta_0 + \beta_1 x.
+\end{align}
+$$
+
+. . .
+
+$$
+\begin{align}
+\mathbb{Var}[Y \mid x] &= \mathbb{Var}[ \beta_0 + \beta_1 x + \epsilon ] \\
+&=\mathbb{Var}[ \beta_0 + \beta_1] x + \mathbb{Var}[\epsilon ]  \\
+&= 0 + \mathbb{Var}[\epsilon ] \\
+&= \sigma^2.
+\end{align}
+$$
+
+. . .
+
+Portanto, $Y \sim N( \beta_0 + \beta_1x, \sigma^2 )$. 
+:::
+
+
+## Estimação dos parâmetros do modelo 
+
+<br/>
+
+- Os modelos de regressão linear dependem de parâmetros desconhecidos. Portanto, é necessário estimá-los. 
+
+<br/>
+
+- Duas técnicas podem ser usadas para estimar um modelo de regressão linear: 
+    - Mínimos Quadrados Ordinários (MQO)
+    - Máxima verossimilhança (MV)
+
+
+# Mínimos Quadrados Ordinários 
+
+<br/>
+
+::: {style="height:600px; font-size:25px; margin-left: 5px; margin-right: 5px"}
+## Ilustração da reta de regressão 
+
+::: {style="text-align: center;"}
+![](images/residuos.jpg){width=60%}
+:::
+
+:::
+## Valores preditos de $Y_i$
+
+<br/>
+
+Para estimar os valores da variável resposta $Y$, usamos a seguinte expressão: 
+
+<br/>
+
+$$
+\hat Y_i = \hat\beta_0 + \hat\beta_1X_i 
+$$
+
+<br/>
+
+em que $\hat\beta_0$ e $\hat\beta_1$ são os estimadores para os parâmetros $\hat\beta_0$ e $\hat\beta_1$, respectivamente. 
+
+## Resíduos  
+
+<br/>
+
+A variável resposta $Y$ pode ser representada como sendo a soma dos valores estimados com os resíduos, ou seja, 
+
+<br/>
+
+$$
+Y_i = \hat Y_i + \hat \epsilon_i 
+$$
+
+<br/>
+
+Isto é, os **resíduos** é dado por: 
+
+<br/>
+
+$$
+\hat\epsilon_i = Y_i - \hat Y_i 
+$$
+
+
+## Soma dos resíduos 
+
+<br/>
+
+É intuitivo dizer que, um modelo bem ajustado é aquele que possui a soma de todos os resíduos sendo a menor possível. Isto é, a soma dos resíduos pode ser encontrada pela seguinte expressão:
+
+<br/>
+
+$$
+\sum_{i=1}^{n} \hat\epsilon_i = \sum_{i=1}^{n} (Y_i - \hat Y_i) = \sum_{i=1}^{n} (Y_i - \hat\beta_0 - \hat\beta_1X_i )
+$$
+
+<br/>
+
+. . . 
+
+Entretanto, a equação acima possui um grande problema !!! 
+
+. . . 
+
+Por exemplo, considere que os resíduos $\epsilon_1 = 10$, $\epsilon_2 = 5$, $\epsilon_3 = 2$, $\epsilon_4 = -5$, $\epsilon_5 = -10$ e $\epsilon_6 = -2$. 
+
+## Soma dos resíduos ao quadrado 
+
+<br/>
+
+Para corrigir o problema da soma dos resíduos, podemos elevar ao quadrado os resíduos e somá-los. Assim, temos a medida soma dos resíduos ao quadrado dada por: 
+
+<br/>
+
+$$
+\sum_{i=1}^{n} \hat\epsilon_i^2 = \sum_{i=1}^{n} (Y_i - \hat Y_i)^2 = \sum_{i=1}^{n} (Y_i - \hat\beta_0 - \hat\beta_1X_i )^2
+$$
+
+<br/>
+
+Dada a equação acima, os valores de $\beta_0$ e $\beta_1$ são escolhidos de forma que minimizem a soma dos resíduos. 
+
+
+## <span style="font-size: 40px;">Como achar pontos de mínimo e máximo de uma função </span>
+
+<br/>
+
+. . . 
+
+Se uma função \( f(x) \) for diferenciável, seguimos estes passos:
+
+<br/>
+
+. . . 
+
+1. **Derivar** a função: \( f'(x) \).
+
+. . . 
+
+2. **Encontrar pontos críticos** resolvendo analiticamente \( f'(x) = 0 \).
+
+. . . 
+
+3. **Classificar os pontos críticos**:
+   - Se \( f''(x) > 0 \), é um **mínimo local**.
+   - Se \( f''(x) < 0 \), é um **máximo local**.
+   - Se \( f''(x) = 0 \), pode ser um ponto de inflexão (precisa de mais análise).
+
+
+::: {style="height:600px; font-size:23px; margin-left: 5px; margin-right: 5px"}
+## <span style="font-size: 40px;">Estimadores de Mínimos quadrados para $\beta_0$ e $\beta_1$. </span>
+
+
+Para encontrar os estimadores de MQO dos parâmetros $\beta_0$ e $\beta_1$ vamos minimizar a soma dos resíduos ao quadrado. Para isto, precisamos derivar a soma dos resíduos ao quadrado:
+
+$$
+\frac{\partial}{\partial \beta_0}\sum_{i=1}^{n} (Y_i - \beta_0 - \beta_1X_i )^2 = 0 \\
+\Rightarrow \hat \beta_0 = \overline Y - \hat\beta_1\overline X
+$$
+
+e 
+
+$$
+\frac{\partial}{\partial \beta_1}\sum_{i=1}^{n} (Y_i - \beta_0 - \beta_1X_i )^2 = 0  \\
+\Rightarrow \hat \beta_1 = \frac{ \sum_{i=1}^{n} (X_i - \overline X)(Y_i - \overline Y) }{\sum_{i=1}^{n} (X_i - \overline X)^2}
+$$
+:::
+
+## <span style="font-size: 35px;">Propriedades dos Estimadores de MQO na Regressão Linear Simples </span>
+
+. . . 
+
+1. **Não Viesado**
+   - Os estimadores \( $\hat{\beta}_0$ \) e \( $\hat{\beta}_1$ \) são **não viesados**, ou seja, \( $E[\hat{\beta}_0] = \beta_0$ \) e \( $E[\hat{\beta}_1] = \beta_1$ \).
+   
+
+. . . 
+
+
+2. **Eficiência**
+   - Os estimadores \( $\hat{\beta}_0$ \) e \( $\hat{\beta}_1$ \) são **eficientes** entre os estimadores lineares não viesados. Isso significa que eles têm a menor variância possível de todos os estimadores lineares não viesados, sob a suposição de homocedasticidade e erros i.i.d.
+
+. . . 
+
+3. **Consistência**
+   - Os estimadores são **consistentes**, ou seja, conforme o tamanho da amostra \( n \) cresce para o infinito, os estimadores \( $\hat{\beta}_0$ \) e \( $\hat{\beta}_1$ \) convergem para os valores verdadeiros \( $\beta_0$ \) e \( $\beta_1$ \).
+
+
+## 
+
+
+4. **Invariância sob Transformações Lineares**
+   - Se a variável \( y \) for transformada por uma transformação linear, o estimador de MQO para o parâmetro será alterado de forma consistente. Por exemplo, se \( $y_i$ \) for multiplicado por uma constante \( c \), o estimador \( $\hat{\beta}_1$ \) será multiplicado por \( c \).
+
+. . . 
+
+5. **Mínimos Quadrados**
+   - O estimador de MQO minimiza a soma dos quadrados dos resíduos
+   
+    $$
+    \sum_{i=1}^n (y_i - \beta_0 - \beta_1 x_i)^2
+    $$
+
+. . . 
+
+6. **Independência dos Resíduos**
+   - O modelo assume que os resíduos \( $\epsilon_i$ \) são **independentes** e **identicamente distribuídos** (i.i.d.), com média zero e variância constante.
+
+
+## Método da Máxima Verossimilhança 
+
+<br/>
+
+Seja $X_1, \ldots, X_n$ uma amostra aleatória simples de uma variável aleatória com função de densidade ou de probabilidade $f(x \mid \theta)$. A função $L(\theta)$, que é definida por: 
+
+<br/>
+
+$$
+L(\theta) = \prod_{i=1}^{n} f(x_i | \theta),
+$$
+
+<br/>
+
+que determina, para cada conjunto de valores observados de $X_1, \ldots, X_n$ a probabilidade de se obter estes valores é chamada função de verossimilhança de $\theta$. 
+
+## Interpretação da verossimilhança
+
+<br/>
+
+- A função de verossimilhança correspondente a uma amostra aleatória observada é definida como sendo igual a função densidade (ou de probabilidade) conjunta, embora seja interpretada diferentemente como função de $\theta$ dada uma amostra $X_{1}, \ldots, X_{n}$. 
+
+ <br/>   
+
+- Neste caso, um estimador razoável para $\theta$ é aquele que maximiza a chance relativa de se obter o que realmente foi observado na amostra. Sendo assim, o valor $\hat \theta$, correspondente ao máximo global de $L(\theta)$, se existir é chamado estimador de máxima verossimilhança (EMV) de $\theta$. 
+
+## Log-verossimilhança 
+
+ <br/>   
+
+O logaritmo natural da função de verossimilhança de $\theta$ é denotado por 
+		
+ <br/>   
+
+$$
+\begin{align*}
+\ell(\theta) = \log L(\theta)
+\end{align*}
+$$
+
+ <br/>   
+
+O valor que maximiza $L(\theta)$, também maximiza $\ell(\theta)$, uma vez que o logaritmo é função decrescente.
+
+
+## Encontrando os estimadores de MV 
+
+<br/>   
+
+No caso uniparamétrico onde  é derivável, o estimador de máxima verossimilhança pode ser encontrado como a raiz da equação de verossimilhança
+
+<br/>   
+	
+$$
+\ell^{\prime}(\theta ; \mathrm{x})= \left.\frac{\partial l(\theta ; \mathrm{x})}{\partial \theta}\right|_{\theta=\hat{\theta}}=0
+$$
+	
+<br/>   
+
+Em alguns exemplos simples, a solução da equação de verossimilhança pode ser obtida explicitamente. Em situações mais complicadas, a solução da equação acima será em geral obtida por **procedimentos numéricos**. 
+
+##
+
+<br/>  
+
+Para se concluir que a solução da equação anterior é um ponto de máximo, é necessário verificar se
+	
+<br/>   
+
+$$
+	\ell^{\prime \prime}(\hat{\theta} ; \mathbf{x})=\left.\frac{\partial^{2} \log L(\theta ; \mathbf{x})}{\partial \theta^{2}}\right|_{\theta=\hat{\theta}}<0
+$$
+
+
+
+## REsultado assintótico 
+
+Suponha agora que temos uma AAS de tamanho $n$, da v.a. $X$, ou seja, $X_{1}, \ldots, X_{n}$, e que a distribuição de $X$ envolve o parâmetro $\theta$. Suponha ainda que $X$ satisfaz as condições de regularidade exigidas no Teorema de Crámer-Rao, então, se $\hat \theta$ é o estimador de Máxima Verossimilhança de $\theta$, temos que,
+
+
+$$
+\sqrt{n}(\hat{\theta}-\theta) \stackrel{a}{\sim} N\left(0, \frac{1}{I_{F}(\theta)}\right),
+$$
+e
+$$
+\sqrt{n}(g(\hat{\theta})-g(\theta)) \stackrel{a}{\sim} N\left(0, \frac{\left(g^{\prime}(\theta)\right)^{2}}{I_{F}(\theta)}\right)
+$$
+
+em que "$\stackrel{a}{\sim}$" significa distribuição assintótica
+
+## Propriedades assintóticas do EMV 
+
+<br/>  		
+
+Para amostras grandes,
+		
+<br/>  
+
+- Os estimadores de máxima verossimilhança de $\theta$ e $g(\theta)$ são **aproximadamente não viciados** 
+		
+<br/>  
+
+- As variâncias coincidem com os correspondentes limites inferiores das variâncias dos estimadores não viciados de $\theta$ e $g(\theta)$. Portanto, temos que o estimador de máxima verossimilhança é eficiente.
+
+## Exemplo 
+
+<br/> 
+
+<br/> 
+
+Suponha $X_{1}, \ldots, X_{n}$ uma AAS de uma v.a. $X \sim N(\mu, \sigma^2)$, com $\sigma^2$ conhecido. Encontre o EMV de $\mu$. 
+
+
+
+## <span style="font-size: 40px;">Estimação de MV de um modelo de regressão simples </span>
+
+
+<br/> 
+
+Suponha que no modelo de duas variáveis 
+
+$$
+Y_i = \beta_0 + \beta_1 X_i + \epsilon_i, 
+$$
+os $Y_i$ sejam normais e independentemente distribuídos, com média $\beta_0 + \beta_1 X_i$ e variância $\sigma^2$. Em consequência, a função de densidade de probabilidade conjunta $f(Y_1, Y_2, \dots, Y_n)$, dadas a média e a variância anteriores, pode ser escrita como:
+
+<br/> 
+
+$$
+f(Y_1, Y_2, \dots, Y_n | \beta_0, \beta_1, \sigma^2)
+$$
+
+<br/> 
+
+## <span style="font-size: 40px;">Distribuição conjunta da variável resposta $Y_i$</span>
+
+Mas, tendo em vista a independência dos $Y_i$, essa função de densidade de probabilidade conjunta pode ser expressa como um produto de $n$ funções de densidade individuais:
+
+<br/> 
+
+$$
+f(Y_1, Y_2, \dots, Y_n | \beta_0, \beta_1, \sigma^2) = \prod_{i=1}^{n} f(Y_i | \beta_0, \beta_1, \sigma^2)
+$$
+
+em que
+$$
+f(Y_i) = \frac{1}{\sigma \sqrt{2\pi}} \exp \left( - \frac{(Y_i - \beta_0 - \beta_1 X_i)^2}{2 \sigma^2} \right)
+$$
+que é a função de densidade de uma variável com distribuição normal, dadas a média e a variância.
+
+
+## 
+
+Substituindo a equação anterior por cada $Y_i$ na equação geral, obtemos:
+
+<br/> 
+
+$$
+\small
+f(Y_1, Y_2, \dots, Y_n | \beta_0, \beta_1, \sigma^2) = \left( \frac{1}{\sigma \sqrt{2\pi}} \right)^n \exp \left( -\frac{1}{2 \sigma^2} \sum_{i=1}^{n} (Y_i - \beta_0 - \beta_1 X_i)^2 \right)
+$$
+
+<br/> 
+
+Se $Y_1, Y_2, \dots, Y_n$ são conhecidos dos dados, mas $\beta_0, \beta_1$ e $\sigma^2$ não são, a função acima é chamada de função de verossimilhança, denotada por $L(\beta_0, \beta_1, \sigma^2)$:
+
+<br/> 
+
+$$
+\small
+L(\beta_0, \beta_1, \sigma^2) = \left( \frac{1}{\sigma \sqrt{2\pi}} \right)^n \exp \left( -\frac{1}{2 \sigma^2} \sum_{i=1}^{n} (Y_i - \beta_0 - \beta_1 X_i)^2 \right)
+$$
+
+## log-verossimilhança
+
+<br/> 
+
+- O método da **máxima verossimilhança** tem como objetivo estimar os parâmetros desconhecidos de maneira que a probabilidade de observar os dados $Y_i$ seja a maior (ou a **máxima**) possível. 
+
+<br/> 
+
+- Para isso, derivamos a função de log verossimilhança em relação aos parâmetros e igualamos a zero:
+
+<br/> 
+
+$$
+\ell(\theta) = -n \ln \sigma - \frac{n}{2} \ln (2\pi) - \frac{1}{2 \sigma^2} \sum_{i=1}^{n} (Y_i - \beta_0 - \beta_1 X_i)^2
+$$
+
+::: {style="height:600px; font-size:25px; margin-left: 5px; margin-right: 5px"}
+## <span style="font-size: 40px;">Derivando para encontrar os EMV</span>
+
+
+Derivando a equação parcialmente em relação aos parâmetros, obtemos: 
+
+<br/>
+
+. . . 
+
+$$
+\small
+\frac{\partial \ell(\theta)}{\partial \beta_0} = \frac{1}{\sigma^2} \sum_{i=1}^{n} (Y_i - \beta_0 - \beta_1 X_i)(-1)
+$$
+
+<br/> 
+
+. . . 
+
+$$
+\small
+\frac{\partial \ell(\theta)}{\partial \beta_1} = \frac{1}{\sigma^2} \sum_{i=1}^{n} (Y_i - \beta_0 - \beta_1 X_i)(-X_i)
+$$
+
+<br/> 
+
+. . . 
+
+$$
+\small
+\frac{\partial \ell(\theta)}{\partial \sigma^2} = -\frac{n}{2\sigma^2} + \frac{1}{2\sigma^4} \sum_{i=1}^{n} (Y_i - \beta_0 - \beta_1 X_i)^2
+$$
+:::
+
+## 
+
+<br/> 
+
+Igualando essas equações a zero e resolvendo para os estimadores de máxima verossimilhança, obtemos:
+
+. . . 
+
+<br/> 
+
+$$
+\sum Y_i = n \hat{\beta_0} + \hat{\beta_1} \sum X_i \\
+\Rightarrow \hat \beta_0 = \overline Y - \hat\beta_1\overline X
+$$
+
+<br/> 
+
+. . . 
+
+$$
+\sum Y_i X_i = \hat{\beta_0} \sum X_i + \hat{\beta_1} \sum X_i^2 \\
+\Rightarrow \hat \beta_1 = \frac{ \sum_{i=1}^{n} (X_i - \overline X)(Y_i - \overline Y) }{\sum_{i=1}^{n} (X_i - \overline X)^2}
+$$
+
+::: {style="height:600px; font-size:25px; margin-left: 5px; margin-right: 5px"}
+## EMV para $\sigma^2$
+
+<br/> 
+
+Substituindo a equação de máxima verossimilhança, encontramos:
+
+<br/> 
+
+$$
+\small
+\hat{\sigma^2} = \frac{1}{n} \sum_{i=1}^{n} (Y_i - \hat{\beta_0} - \hat{\beta_1} X_i)^2
+$$
+
+<br/> 
+
+Essa equação mostra que o estimador de máxima verossimilhança de $\sigma^2$ é enviesado, pois seu valor esperado é:
+
+$$
+\small
+E(\hat{\sigma^2}) = \frac{n-1}{n} \sigma^2.
+$$
+
+:::
+
+## <span style="font-size: 40px;">Decomposição da Soma de Quadrados Total</span>
+
+<br/>
+
+Técnica mais usada para verificar a adequação do ajuste do modelo de regressão a um conjunto de dados, baseada na seguinte identidade:
+
+<br/>
+
+$$
+\begin{eqnarray*}
+\displaystyle  \sum _{i=1} ^n (y_i - \bar{y})^2 &=& \displaystyle  \sum _{i=1} ^n(\hat{\mu}_i - \bar{y})^2 + \displaystyle  \sum _{i=1} ^n (y_i-\hat{\mu}_i)^2\\ \\
+\quad \quad \quad \quad \quad \quad SQT \quad \quad &=& \quad \quad \quad SQE \quad \quad +\quad \quad \quad SQR
+\end{eqnarray*}
+$$
+
+<br/>
+
+## <span style="font-size: 40px;">Coeficiente de determinação $R^2$</span>
+
+<br/>
+
+O coeficiente de correlação múltipla de Pearson (ou coeficiente de determinação) ${R^2}$  expressa o quanto o modelo explica a variabilidade total da variável y.
+
+$$
+R^2=\frac{SQE}{\text{SQT}}
+$$
+
+- **Interpretação:** O coeficiente $R^2$ é interpretado como a proporção da variação de $Y$ que é explicada pela covariável X. $( \in (0,1))$ 
+
+<br/>
+
+- **Finalidade:** Medir o poder de explicação de um modelo.
+
+
+## Limitação do $R^2$ 
+
+<br/>
+
+- Uma propriedade importante no $R^2$ é que ele é uma função não decrescente do número de variáveis explicativas presente no modelo. 
+
+<br/>
+
+- Dito de outra forma, uma variável $X$ adicional não reduz o valor do $R^2$
+
+<br/>
+
+- A solução para esse problema é usar um coeficiente que leve em consideração o número de variável 
+
+
+## $R^2$ Ajustado 
+
+<br/>
+
+- Obtemos o $R^2$ ajustado, denotado por $\bar{R}^2$, corrigindo o coeficiente $R^2$ pelos graus de liberdade da seguinte forma
+
+
+$$
+\bar{R}^2=  1 - (1 - R^2)\frac{n-1}{n-k}
+$$
+em que $n$ é a quantidade de observação e $k$ é a quantidade de variáveis explicativas com o intercepto. 
+
+<br/>
+
+**Obs:** Note que para $k > 1$, $\bar{R}^2 < R^2$, oque implica que, à medida que o número de variáveis explicativas aumentam, o $R^2$ ajustado aumenta menos que o $R^2$ não ajustado. 
+
+
+
+## Análise dos resíduos 
+
+<br/>
+
+```{r}
+library(ggplot2)
+library(patchwork)
+
+# Gerando dados simulados
+set.seed(123)
+n <- 1000
+x <- rnorm(n, mean = 50, sd = 10)
+y <- 3 + 2 * x + rnorm(n, mean = 0, sd = 5)  # Erro com variância constante
+
+# Ajustando um modelo linear
+modelo_homo <- lm(y ~ x)
+
+# Criando um data frame para o ggplot
+df_homo <- data.frame(
+  fitted_values = fitted(modelo_homo),
+  residuals = resid(modelo_homo)
+)
+
+# Plotando os resíduos
+p1 <- ggplot(df_homo, aes(x = fitted_values, y = residuals)) +
+  geom_point(color = "blue", alpha = 0.6) +
+  geom_hline(yintercept = 0, color = "red", linetype = "dashed", linewidth = 1) +
+  labs(title = "Resíduos Homocedásticos",
+       x = "Valores Ajustados",
+       y = "Resíduos") +
+  theme_minimal()
+
+
+# Gerando dados heterocedásticos
+# Gerando dados heterocedásticos (variância aumenta com x²)
+y_hetero <- 3 + 2 * x + rnorm(n, mean = 0, sd = 0.05 * x^2)  # Variância cresce com x²
+
+# Ajustando o modelo linear
+modelo_hetero <- lm(y_hetero ~ x)
+
+# Criando um data frame para o ggplot
+df_hetero <- data.frame(
+  fitted_values = fitted(modelo_hetero),
+  residuals = resid(modelo_hetero)
+)
+
+# Plotando os resíduos
+p2 <- ggplot(df_hetero, aes(x = fitted_values, y = residuals)) +
+  geom_point(color = "blue", alpha = 0.6) +
+  geom_hline(yintercept = 0, color = "red", linetype = "dashed", linewidth = 1) +
+  labs(title = "Resíduos Heterocedásticos",
+       x = "Valores Ajustados",
+       y = "Resíduos") +
+  theme_minimal()
+
+(p1 | p2)
+
+```
+
+
+## Tabela ANOVA
+
+<br/>
+
+A tabela da **ANOVA** é usada para testar a adequação global do modelo de regressão.
+
+| Efeito      | Soma de Quadrados | G.L.     | Média de Quadrados | Estatística        |
+|-------------|-------------------|----------|--------------------|--------------------|
+| Regressão   | SQE               | 1        | MQE = SQE / 1      | F = MQE / MQR      |
+| Residual    | SQR               | n - 2    | MQR = SQR / (n - 2)|                    |
+| Total       | SQT               | n - 1    |                    |                    |
+
+<br/>
+
+As somas SQE e SQR têm distribuições $\sigma^2 \mathcal{X}^2_1$ e $\sigma^2 \mathcal{X}^2_{n-2}$, respectivamente.
+
+---
+
+## Teste F - Adequação Global
+
+<br/>
+
+**Hipóteses**
+
+$$
+H_0: \beta_1 = 0 \\
+H_1: \beta_1 \neq 0
+$$
+
+**Estatística de Teste**
+
+$$
+F = \frac{MQE}{MQR}
+$$
+
+**Conclusão**
+
+Se $F > F_{1, n-2}(\alpha)$  **rejeita-se** $H_0$, logo o efeito global de pelo menos algumas variáveis presentes na matriz de variáveis explicativas (X) explica a variabilidade de  y. 
+
+
+## <span style="font-size: 40px;">Distribuição da estatística do teste</span>
+
+<br/>
+
+A estatística do teste **F** representa o quociente entre **SQE** e **SQR** e segue uma distribuição $F_{1, n-2}$ , com \( 1 \) e \( n-2 \) graus de liberdade. A distribuição  F  tem o seguinte comportamento:
+
+<br/>
+
+$$
+F \sim F_{1, \, n-2}
+$$
+<br/>
+
+onde $F_{1, n-2}$ representa o valor de uma distribuição F-Snedecor com \( 1 \) e \( n-2 \) graus de liberdade, ao nível de significância $\alpha$.
+
+---
+
+## Seleção das Variáveis Explicativas
+
+<br/>
+
+- O **Teste F** permite apenas inferir que algumas variáveis explicativas são realmente importantes (mas não sabemos quais).
+
+<br/>
+
+- O **Teste t** permite selecionar as variáveis independentes (explicativas) que são significativas para o modelo.
+
+
+::: {style="height:600px; font-size:20px; margin-left: 5px; margin-right: 5px"}
+## <span style="font-size: 40px;">Seleção das Variáveis Explicativas - Teste t</span>
+
+- Obter um modelo **parcimonioso**.
+
+- Eliminar variáveis com pouca ou nenhuma contribuição na variabilidade da variável dependente  y .
+
+**Hipóteses**
+$$
+H_0: \beta_1 = 0 \\
+H_1: \beta_1 \neq 0
+$$ 
+
+**Estatística do Teste t**
+
+A estatística do Teste t é dada por:
+
+$$
+T = \frac{\hat{\beta}_1}{\sqrt{\frac{\hat{\sigma}^2}{\sum_{i=1}^n (x_i - \bar{x})^2}}} \sim t_{(n-2)}
+$$
+
+**Conclusão**
+
+Se  $T < t_{n-2} (\alpha/2)$, **não rejeita-se** $H_0$, logo a variável explicativa X não é significativa para explicar a variabilidade da variável resposta.
+:::
+
+
+
