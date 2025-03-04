@@ -1,5 +1,5 @@
 ---
-title: "Econometria Introdução"
+title: "Regressão Linear Múltipla"
 title-slide-attributes:
   data-background-image: Marca_UEPB.png
   data-background-size: contain
@@ -26,253 +26,31 @@ editor:
     wrap: 72
 ---
 
-::: {style="height:500px; font-size:25px; margin-left: 5px; margin-right: 5px"}
-## Conteúdo programático
+# Modelos de regressão Linear Múltipla
 
-### Unidade temática 1
-- Conceitos e objetivos da econometria
--  Modelos de regressão simples
--  Modelos de regressão múltipla 
-- Modelos log-lin 
--  Modelos Lineares Generalizados 
-- Modelo de regressão beta (para dados de proporção)
-- Multicolinearidade, heterocedasticidade, especificação dos modelos e ausência de normalidade dos resíduos
+## Modelos de regressão Linear Múltipla
 
-::: 
-
-::: {style="height:500px; font-size:25px; margin-left: 5px; margin-right: 5px"}
-### Unidade temática 2
-- Variáveis Dummy
-- Variáveis instrumentais
-- Modelos de equações simultâneas
-- Econometria de séries temporais: Classe ARIMA, suavização exponencial e modelos ARCH e GARCH
-::: 
-
-
-::: {style="height:500px; font-size:27px; margin-left: 5px; margin-right: 5px"}
-## O que é econometria
-
-<br/>
-
-
-"A econometria, resultado de determinada perspectiva sobre o papel da economia, consiste na aplicação da estatística matemática a dados econômicos para dar suporte empírico aos modelos formulados pela economia matemática e obter resultados numéricos (TINTNER, 1968)"
-
-. . .
-
-<br/>
-
-"A econometria pode ser definida como a ciência social em que as ferramentas da teoria econômica, da matemática e inferência estatística são aplicadas à análise dos fenômenos econômicos (GOLDBERGER, 1964)"
-
-
-:::
-
-::: {style="height:600px; font-size:27px; margin-left: 5px; margin-right: 5px"}
-## União de ciências
-
-<br/>
-
-<br/>
-
-Com base nessas definições, podemos entender que a econometria é a união entre: Economia, matemática e estatística. 
-
-
-:::
-
-
-::: {style="height:600px; font-size:27px; margin-left: 5px; margin-right: 5px"}
-## metodologia econômica clássica
-
--   Em termos gerais, a metodologia econômica clássica segue os seguintes passos: 
-
-    ::: incremental
-    1.   Exposição da teoria ou hipótese
-
-    2.   Especificação do modelo matemático da teoria
-
-    3.  Especificação do modelo estatístico ou econométrico
-
-    4. Coleta dos dados
-
-    5. Estimação dos parâmetros do modelo econométrico (ajuste do modelo)
-
-    6. teste de hipóteses (checar as premissas do modelo e ferramentas de diagnóstico)
-
-    7. Previsão ou predição 
-
-    8. Uso do modelo para fins de controle ou de políticas 
-    :::
-:::
-
-
-## Relações estatísticas e determinísticas 
-
-<br/>
-
-- Nas relações estatísticas entre variáveis, lidamos essencialmente com variáveis aleatórias ou estocásticas, isto é, variáveis que seguem alguma distribuição de probabilidade. 
-
-<br/>
-
-- Por outro lado, na dependência determinística, também lidamos com variáveis, mas estas não são aleatórias. 
-
-## Exemplo de relação estocástica 
-
-<br/>
-
-A relação entre o rendimento de uma lavroura em relação à temperatura, pluviosidade, luz solar ou fertilizante 
-é de natureza estatística no sentido de que as variáveis explicativas 
-não permitirão ao agrônomo prever exatamente o rendimento devido aos erros envolvidos na medição dessas variáveis, 
-assim como a diversos outros fatores que coletivamente afetam o rendimento mas de alguma forma não podem ser mensurados. 
-
-## Relação determinística
-
-<br/>
-
-Nos fenômenos determinísticos lidamos com relações do tipo apresentado pela Lei da gravidade de Newtton ou outras Leis da Física que possuem uma relação exata. 
-
-## Regressão versus causalidade 
-
-<br/>
-
-- Embora a análise de regressão lide com a dependência de uma variável em relação a outras, isso não implica necessariamente em causalidade 
-
-<br/>
-
-"Uma relação estatística, por mais forte e sugestiva que seja, nunca pode estabelecer uma conexão causal: nossas ideias de causalidade devem vir de fora da estatística, em última análise, de alguma teoria." (Kendall e Stuart, 1961) 
-
-<br/>
-
-- Portanto, é importante notar que, uma relação estatística por si própria não implica logicamente em uma causa. Para atribuir causa, devemos recorrer a considerações a priori ou teóricas. 
-
-## regressão versus correlação 
-
-<br/>
-
-- a análise de correlação, cujo principal objetivo é medir a força ou grau de associação linear entre duas variáveis está estreitamente relacionada à análise de regressão, mas conceitualmente diferente. 
-
-<br/>
-
-- Na análise de regressão, como já mencionamos, não estamos interessados em apenas identificar associações. EM vez disso, buscamos estimar ou prever o valor médio de uma variável com base nos valores fixos de outras variáveis. 
-
-# Tipos de dados 
-
-## Séries temporais
-
-<br/>
-
-- Uma série temporal é um conjunto de observações dos valores que uma variável assume em diferentes momentos de tempo 
-
-## Escala de tempo 
-
-- Esses dados podem ser coletados em diferentes escalas de tempo: 
-
-    - Minutos
-    - Horas 
-    - Dias
-    - Semanas
-    - Meses
-    - Anos ... 
-
-## Dados de corte transversal 
-
-<br/>
-
-Esses são dados em que uma ou mais variáveis foram coletadas no mesmo ponto do tempo, como por exemplo, o censo demográfico que é feito a cada 10 anos. 
-
-
-# Natureza da análise de regressão 
-
-
-## Origem do termo regressão 
-
-<br/>
-
-O termo foi criado por Francis Galton. Em seu artigo, Galton verificou que, embora existisse uma tendência de que pais altos tivessem filhos altos e pais baixos tivessem filhos baixos, a estatura média das crianças nascidas de pais com uma dada altura tendia a mover-se ou "regredir" à altura média da população como um todo. Daí que surgiu o termo regressão usado até hoje. 
-
-
-## Exemplo de Galton no R 
-
-```{r}
-library(dplyr)
-library(ggplot2)
-
-# Definir a semente para reprodutibilidade
-set.seed(42)
-
-# Gerar alturas dos pais (média 168 cm, desvio padrão 10 cm)
-parent_height <- rnorm(2000, mean = 168, sd = 10)
-parent_height <- round(parent_height, 0)
-
-# Gerar alturas dos filhos com base na relação linear com ruído
-child_height <- 50 + 0.8 * parent_height + rnorm(2000, mean = 0, sd = 10)
-child_height <- round(child_height, 0)
-
-# Criar um data frame
-data <- data.frame(parent_height, child_height)
-
-# Visualizar as primeiras linhas
-#head(data)
-
-# Ajustar um modelo de regressão linear
-model <- lm(child_height ~ parent_height, data = data)
-
-
-# Plotar os dados e a regressão
-ggplot(data, aes(x = parent_height, y = child_height)) +
-  geom_point(color = "blue", alpha = 0.6, size = 2) +  # Pontos no gráfico
-  geom_smooth(method = "lm", color = "red", se = FALSE) +  # Linha de regressão
-  labs(title = "Regressão de Galton: Altura dos Pais vs Filhos",
-       x = "Altura Média dos Pais (cm)",
-       y = "Altura dos Filhos (cm)") +
-  theme_minimal()
-
-
-```
-
-## Selecionando alturas especificas dos pais
-
-```{r}
-
-## selecionando alturas dos pais especificas
-df_filter = data %>% filter( parent_height %in% c(150, 155, 160, 165, 170, 175,180) )
-ggplot(df_filter, aes(x = parent_height, y = child_height)) +
-  geom_point(color = "blue", alpha = 0.6, size = 2) +  # Pontos no gráfico
-  geom_smooth(method = "lm", color = "red", se = FALSE) +  # Linha de regressão
-  labs(title = "Regressão de Galton: Altura dos Pais vs Filhos",
-       x = "Altura Média dos Pais (cm)",
-       y = "Altura dos Filhos (cm)") +
-  theme_minimal()
-
-```
-
-## Interpretação da regressão 
-
-<br/>
-
-<br/>
-
-A análise de regressão diz respeito ao estudo da dependência de uma variável, variável dependente, em relação a uma ou mais variáveis, as variáveis explicativas, visando estimar e/ou prever o valor médio da variável resposta em termos dos valores conhecidos ou fixados (variáveis explicativas). 
-
-# Modelos de regressão Linear 
-
-## Modelo de regressão Linear simples 
 <hr>
 
 <br/>
 
-Seja $Y$ uma variável de interesse, que vamos denominar de **variável resposta**, e seja $X$ uma **variável explicativa**. 
-O modelo de regressão linear simples descreve a variável $Y$ como sendo uma soma de uma quantidade determinística e uma quantidade aleatória. 
-Neste sentido, o modelo de regressão linear é dado por: 
+Seja $Y$ a **variável resposta**, e seja $X_1, \ldots, X_n$ as
+**variáveís explicativas**. O modelo de regressão linear múltipla
+descreve a variável $Y$ através de duas ou mais variáveis explicativas.
+Neste sentido, o modelo é definido como:
 
 <br/>
 
 $$
-Y_i = \beta_0 + \beta_1X_{i} + \epsilon_i,  \quad i = 1, \ldots, n. 
+Y_i = \beta_0 + \beta_1X_{i1} + \cdots \beta_pX_{ip} + \epsilon_i,  \quad i = 1, \ldots, n. 
 $$
 
 <br/>
 
-em que os parâmetros $\beta_0$ e $\beta_1$ são o intercepto e o coeficiente de regressão, respectivamente. $X$ é a variável explicativa e $\epsilon_i$ é um erro aleatório para
-$i = 1, \ldots,n$.
+em que o parâmetro $\beta_0$ é o intercepto e os parâmetros
+$\beta_1, \ldots, \beta_p$ são os coeficiente de regressão.
+$X_{i1}, \ldots, X_{in}$ são as variáveis explicativas e $\epsilon_i$ é
+um erro aleatório para $i = 1, \ldots,n$.
 
 ## Suposições do erro:
 
@@ -293,35 +71,94 @@ $i = 1, \ldots,n$.
 
 3.  $\epsilon_i$ tem distribuição normal.
 
+::: {style="height:800px; font-size:23px; margin-left: 5px; margin-right: 5px"}
+## Forma Matricial
 
-## Distribuição da variável resposta Y 
+Podemos rescrever o modelo de regressão linear múltipla de forma
+matricial. Neste caso, temos:
+
+$$
+\boldsymbol Y = \boldsymbol{X\beta} + \boldsymbol \epsilon
+$$ em que,
+
+$$
+\mathbf{Y} =
+\begin{bmatrix}
+y_1 \\
+y_2 \\
+y_3 \\
+\vdots \\
+y_n
+\end{bmatrix}
+, \quad
+\mathbf{X} =
+\begin{bmatrix}
+1 & x_{11} & x_{12} & \dots & x_{1p} \\
+1 & x_{21} & x_{22} & \dots & x_{2p} \\
+1 & x_{31} & x_{32} & \dots & x_{3p} \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+1 & x_{n1} & x_{n2} & \dots & x_{np}
+\end{bmatrix},
+\boldsymbol{\beta} =
+\begin{bmatrix}
+\beta_0 \\
+\beta_1 \\
+\beta_2 \\
+\vdots \\
+\beta_p
+\end{bmatrix}
+\quad \text{e} \quad 
+\boldsymbol{\varepsilon} =
+\begin{bmatrix}
+\varepsilon_1 \\
+\varepsilon_2 \\
+\varepsilon_3 \\
+\vdots \\
+\varepsilon_n
+\end{bmatrix}
+$$
 
 <br/>
 
-Considere o modelo de regressão linear simples. Então a distribuição de probabilidade de $Y$, correspondente ao valor prefixado, x, é dada por: 
+em que
+$\boldsymbol \epsilon \sim N( \boldsymbol 0, \sigma^2 \boldsymbol I )$,
+sendo $\boldsymbol 0$ o vetor de nulos e $\boldsymbol I$ a matriz
+identidade.
+:::
+
+## [Distribuição da variável resposta Y]{style="font-size: 40px;"}
+
+<br/>
+
+Considere o modelo de regressão linear múltipla em forma matricial.
+Então a distribuição de probabilidade de $\boldsymbol Y$, correspondente
+a matriz de covariável $\boldsymbol X$, é dada por:
 
 <br/>
 
 <br/>
 
 $$
-Y \sim N(\beta_0 + \beta_1 \, x, \sigma^2). 
+Y \sim N(   \boldsymbol{X\beta}, \sigma^2 \boldsymbol I). 
 $$
 
 ::: {style="height:600px; font-size:25px; margin-left: 5px; margin-right: 5px"}
 ## 
 
-**Prova:** Sob o modelo de regressão linear simples, Y é a soma de uma constante, $\beta_0 + \beta_1 x$, com uma variável aleatória $\epsilon$, com distribuição $N(0, \sigma^2)$. Dessa forma, para o valor de x, Y é normal com parâmetros: 
+**Prova:** Sob o modelo de regressão linear múltipla, $\boldsymbol Y$ é
+a soma de uma constante, $\boldsymbol{X\beta}$, com um vetor de
+variáveis aleatórias $\boldsymbol \epsilon$, com distribuição
+$N(\boldsymbol 0, \sigma^2\boldsymbol I)$. Dessa forma:
 
 . . .
 
 $$
 \begin{align}
-\mathbb{E}[Y \mid x] &= \mathbb{E}[ \beta_0 + \beta_1 x + \epsilon ] \\
-&=\mathbb{E}[ \beta_0 + \beta_1] x + \mathbb{E}[\epsilon ]  \\
-&= \beta_0 + \beta_1 x + \mathbb{E}[\epsilon ] \\
-&= \beta_0 + \beta_1 x + 0 \\
-&= \beta_0 + \beta_1 x.
+\mathbb{E}[Y \mid x] &= \mathbb{E}[ \boldsymbol{X\beta} + \boldsymbol \epsilon ] \\
+&=\mathbb{E}[ \boldsymbol{X\beta} ]  + \mathbb{E}[\epsilon ]  \\
+&= \boldsymbol{X\beta} + \mathbb{E}[\epsilon ] \\
+&= \boldsymbol{X\beta} + \boldsymbol 0 \\
+&= \boldsymbol{X\beta}.
 \end{align}
 $$
 
@@ -329,245 +166,303 @@ $$
 
 $$
 \begin{align}
-\mathbb{Var}[Y \mid x] &= \mathbb{Var}[ \beta_0 + \beta_1 x + \epsilon ] \\
-&=\mathbb{Var}[ \beta_0 + \beta_1] x + \mathbb{Var}[\epsilon ]  \\
-&= 0 + \mathbb{Var}[\epsilon ] \\
-&= \sigma^2.
+\mathbb{Var}[Y \mid x] &= \mathbb{Var}[ \boldsymbol{X\beta} + \boldsymbol \epsilon ] \\
+&=\mathbb{Var}[ \boldsymbol{X\beta}] + \mathbb{Var}[\boldsymbol \epsilon ]  \\
+&= \boldsymbol 0 + \mathbb{Var}[ \boldsymbol\epsilon ] \\
+&= \sigma^2\boldsymbol I.
 \end{align}
 $$
 
 . . .
 
-Portanto, $Y \sim N( \beta_0 + \beta_1x, \sigma^2 )$. 
+Portanto,
+$\boldsymbol Y \sim N( \boldsymbol{X\beta}, \sigma^2\boldsymbol I )$.
 :::
 
-
-## Estimação dos parâmetros do modelo 
-
-<br/>
-
-- Os modelos de regressão linear dependem de parâmetros desconhecidos. Portanto, é necessário estimá-los. 
+## Esimação de Mínimos Quadrados
 
 <br/>
 
-- Duas técnicas podem ser usadas para estimar um modelo de regressão linear: 
-    - Mínimos Quadrados Ordinários (MQO)
-    - Máxima verossimilhança (MV)
-
-
-# Mínimos Quadrados Ordinários 
-
-<br/>
-
-::: {style="height:600px; font-size:25px; margin-left: 5px; margin-right: 5px"}
-## Ilustração da reta de regressão 
-
-::: {style="text-align: center;"}
-![](images/residuos.jpg){width=60%}
-:::
-
-:::
-## Valores preditos de $Y_i$
-
-<br/>
-
-Para estimar os valores da variável resposta $Y$, usamos a seguinte expressão: 
+A solução para a estimativa dos coeficientes pelo método dos mínimos
+quadrados ordinários (MQO) é dada por:
 
 <br/>
 
 $$
-\hat Y_i = \hat\beta_0 + \hat\beta_1X_i 
+\hat{\boldsymbol{\beta}} = (\mathbf{X}^{\top} \mathbf{X})^{-1} \mathbf{X}^{\top} \mathbf{Y}
 $$
 
 <br/>
 
-em que $\hat\beta_0$ e $\hat\beta_1$ são os estimadores para os parâmetros $\hat\beta_0$ e $\hat\beta_1$, respectivamente. 
+desde que $\mathbf{X}^T \mathbf{X}$ seja invertível.
 
-## Resíduos  
+### [Distribuição dos estimadores dos coeficientes da regressão]{style="font-size: 35px;"}
+
+$$
+\hat {\boldsymbol \beta} \sim N_{p+1}\left( \boldsymbol{\beta}, \, \sigma^2( \boldsymbol{X^{\top}X})^{-1}    \right)
+$$
+
+## Valores preditos de Y
 
 <br/>
 
-A variável resposta $Y$ pode ser representada como sendo a soma dos valores estimados com os resíduos, ou seja, 
+Para estimar os valores da variável resposta $\boldsymbol Y$, usamos a
+seguinte expressão:
 
 <br/>
 
 $$
-Y_i = \hat Y_i + \hat \epsilon_i 
+\hat{\boldsymbol{Y}} = \boldsymbol{X\hat{\boldsymbol \beta}}  
 $$
 
 <br/>
 
-Isto é, os **resíduos** é dado por: 
+em que o vetor $\hat{\boldsymbol \beta}$ representa os estimadores para
+os parâmetros $\hat\beta_0, \ldots, \hat\beta_p$.
+
+## [Escolha entre o modelo linear simples e o modelo linear múltipla]{style="font-size: 35px;"}
+
+<br/>
+
+Suponha que o vetor $\boldsymbol \beta$ é de dimensão $(p+1)$, sendo
+$\beta_0$ o termo constante da equação do modelo com
+$\boldsymbol \beta = (\beta_0, \beta_1, \ldots, \beta_p)^{\top}$.
+
+<br/>
+
+Para uma primeira etapa na análise estatística visando a escolha entre
+os dois modelos, devemos testar as hipóteses:
+
+$$
+\begin{align}
+H_0&: \, \beta_1 = \cdots = \beta_p = 0 \\
+H_1&: \, \text{Pelo menos um diferente}
+\end{align}
+$$ <br/>
+
+Se rejeitamos $H_0$, concluímos que há contribuição significante de uma
+ou mais variáveis regresspras no estudo de $Y$. A estatística do teste
+segue uma distribuição F-Snedecor, com $p$ e $(n - p - 1)$ graus de
+liberdade.
+
+## Testes para os parâmetros
+
+<br/>
+
+A contribuição de cada variável no modelo é verificada através do teste
+t-student, a partir das seguintes hipóteses:
 
 <br/>
 
 $$
-\hat\epsilon_i = Y_i - \hat Y_i 
+\begin{align}
+H_0&: \, \beta_k = 0 \\
+H_1&: \, \beta_k \neq 0
+\end{align}
+$$
+
+A estatística para testarmos a hipótese acima é
+
+$$
+T_{\beta_k} = \frac{\hat{\beta}_k}{\sqrt{ \widehat{\sigma^2} diag{ (\boldsymbol{X^{\top}X})^{-1} }  }} \sim t_{(n-p-1)}
 $$
 
 
-## Soma dos resíduos 
+# Como escolher as variáveis para o modelo ?
+
+## [Seleção de Variáveis na Regressão Múltipla]{style="font-size: 40px;"}
 
 <br/>
 
-É intuitivo dizer que, um modelo bem ajustado é aquele que possui a soma de todos os resíduos sendo a menor possível. Isto é, a soma dos resíduos pode ser encontrada pela seguinte expressão:
+<br/>
+
+A seleção de variáveis é uma etapa essencial na construção de modelos de
+regressão múltipla, pois permite identificar quais variáveis
+independentes são mais relevantes para prever a variável resposta.
+Existem três métodos principais para a seleção de variáveis:
+**ForwardSelection**, **Backward Elimination** e **Stepwise Selection**.
+
+## [Forward Selection (Seleção para Frente)]{style="font-size: 40px;"}
+
+Nesse método, a seleção começa com um modelo vazio (sem preditores). As
+variáveis são adicionadas uma por uma com base em critérios
+estatísticos, como o p-valor dos coeficientes ou o critério de
+informação de Akaike (AIC). O processo continua até que nenhuma variável
+adicional melhore significativamente o modelo.
+
+**Passos:**
+
+1.  Inicia-se com um modelo sem variáveis independentes.
+
+2.  Adiciona-se a variável que tem a maior associação com a variável
+    resposta.
+
+3.  Testa-se a significância da variável adicionada (ex.: p-valor ou
+    AIC).
+
+4.  Repete-se o processo até que nenhuma variável adicional melhore
+    significativamente o modelo.
+
+## [Backward Elimination (Eliminação para Trás)]{style="font-size: 40px;"}
+
+Esse método começa com todas as variáveis no modelo e remove-se uma a
+uma aquelas que menos contribuem para a explicação da variável resposta,
+com base em um critério estatístico.
+
+**Passos:**
+
+1.  Começa-se com todas as variáveis no modelo.
+
+2.  Remove-se a variável com menor significância estatística (ex.: maior
+    p-valor acima de um limiar, como 0.05).
+
+3.  Reajusta-se o modelo e repete-se o processo até que todas as
+    variáveis remanescentes sejam estatisticamente significativas.
+
+## [Stepwise Selection (Seleção por Etapas)]{style="font-size: 40px;"}
+
+Esse método combina Forward Selection e Backward Elimination. Ele
+adiciona variáveis ao modelo, como no método forward, mas também
+verifica se alguma variável já incluída pode ser removida.
+
+**Passos:**
+
+1.  Começa-se com um modelo vazio.
+
+2.  Adiciona-se a variável mais significativa.
+
+3.  Após cada inclusão, testa-se se alguma variável já incluída se
+    tornou insignificante e, se for o caso, ela é removida.
+
+4.  O processo continua até que não seja possível adicionar ou remover
+    mais variáveis com base no critério escolhido.
+
+## [Considerações sobre os critérios de seleção de variáveis]{style="font-size: 40px;"}
 
 <br/>
+
+-   Nenhum dos métodos garante encontrar o melhor subconjunto de
+    variáveis globalmente ótimo.
+
+<br/>
+
+-   Critérios como o AIC, BIC ou $R^2$ ajustado podem ser usados para
+    avaliar a qualidade dos modelos.
+
+# Como escolher o melhor modelo ?
+
+## [AIC (Critério de Informação de Akaike)]{style="font-size: 40px;"}
+
+O **AIC** mede a qualidade relativa de um modelo estatístico,
+penalizando a complexidade para evitar overfitting. Ele é definido como:
 
 $$
-\sum_{i=1}^{n} \hat\epsilon_i = \sum_{i=1}^{n} (Y_i - \hat Y_i) = \sum_{i=1}^{n} (Y_i - \hat\beta_0 - \hat\beta_1X_i )
+AIC=−2\log(L)+2k
 $$
 
-<br/>
+Onde:
 
-. . . 
+-   $L$ é a função de verossimilhança do modelo.
 
-Entretanto, a equação acima possui um grande problema !!! 
+-   $K$ é o número de parâmetros estimados.
 
-. . . 
+**Como interpretar?**
 
-Por exemplo, considere que os resíduos $\epsilon_1 = 10$, $\epsilon_2 = 5$, $\epsilon_3 = 2$, $\epsilon_4 = -5$, $\epsilon_5 = -10$ e $\epsilon_6 = -2$. 
+-   Modelos com **menor** AIC são preferíveis.
 
-## Soma dos resíduos ao quadrado 
+-   O AIC penaliza a complexidade, mas de forma **menos severa** que o
+    BIC.
 
-<br/>
+-   Muito usado em regressão e modelagem estatística, especialmente
+    quando se busca comparar múltiplos modelos.
 
-Para corrigir o problema da soma dos resíduos, podemos elevar ao quadrado os resíduos e somá-los. Assim, temos a medida soma dos resíduos ao quadrado dada por: 
+## [BIC (Critério de Informação Bayesiano)]{style="font-size: 40px;"}
 
-<br/>
-
-$$
-\sum_{i=1}^{n} \hat\epsilon_i^2 = \sum_{i=1}^{n} (Y_i - \hat Y_i)^2 = \sum_{i=1}^{n} (Y_i - \hat\beta_0 - \hat\beta_1X_i )^2
-$$
-
-<br/>
-
-Dada a equação acima, os valores de $\beta_0$ e $\beta_1$ são escolhidos de forma que minimizem a soma dos resíduos. 
-
-
-## <span style="font-size: 40px;">Como achar pontos de mínimo e máximo de uma função </span>
-
-<br/>
-
-. . . 
-
-Se uma função \( f(x) \) for diferenciável, seguimos estes passos:
-
-<br/>
-
-. . . 
-
-1. **Derivar** a função: \( f'(x) \).
-
-. . . 
-
-2. **Encontrar pontos críticos** resolvendo analiticamente \( f'(x) = 0 \).
-
-. . . 
-
-3. **Classificar os pontos críticos**:
-   - Se \( f''(x) > 0 \), é um **mínimo local**.
-   - Se \( f''(x) < 0 \), é um **máximo local**.
-   - Se \( f''(x) = 0 \), pode ser um ponto de inflexão (precisa de mais análise).
-
-
-::: {style="height:600px; font-size:23px; margin-left: 5px; margin-right: 5px"}
-## <span style="font-size: 40px;">Estimadores de Mínimos quadrados para $\beta_0$ e $\beta_1$. </span>
-
-
-Para encontrar os estimadores de MQO dos parâmetros $\beta_0$ e $\beta_1$ vamos minimizar a soma dos resíduos ao quadrado. Para isto, precisamos derivar a soma dos resíduos ao quadrado:
+O **BIC** é semelhante ao AIC, mas penaliza modelos mais complexos de
+forma mais intensa. Sua fórmula é:
 
 $$
-\frac{\partial}{\partial \beta_0}\sum_{i=1}^{n} (Y_i - \beta_0 - \beta_1X_i )^2 = 0 \\
-\Rightarrow \hat \beta_0 = \overline Y - \hat\beta_1\overline X
+BIC=−2\,\log(L)+k\,\log(n)
 $$
 
-e 
+Onde:
+
+-   $N$ é o número de observações no conjunto de dados.
+
+-   $K$ é o número de parâmetros do modelo.
+
+**Como interpretar?**
+
+-   Modelos com **menor** BIC são preferíveis.
+
+-   Penaliza modelos com muitos parâmetros mais fortemente do que o AIC.
+
+-   É mais rigoroso quando o tamanho da amostra nnn é grande.
+
+-   Favorece modelos mais parcimoniosos, evitando overfitting.
+
+## $R^2$ Ajustado
+
+O $R^2$ ajustado é uma versão corrigida do coeficiente de determinação,
+levando em conta a quantidade de variáveis no modelo. Sua fórmula é:
 
 $$
-\frac{\partial}{\partial \beta_1}\sum_{i=1}^{n} (Y_i - \beta_0 - \beta_1X_i )^2 = 0  \\
-\Rightarrow \hat \beta_1 = \frac{ \sum_{i=1}^{n} (X_i - \overline X)(Y_i - \overline Y) }{\sum_{i=1}^{n} (X_i - \overline X)^2}
+R_{ajustado}^{2} =  1−\left( (1−R^2)\frac{(n−1)}{n−k−1} \right)
 $$
-:::
 
-## <span style="font-size: 35px;">Propriedades dos Estimadores de MQO na Regressão Linear Simples </span>
+Onde:
 
-. . . 
+-   $R^2$ é o coeficiente de determinação tradicional.
 
-1. **Não Viesado**
-   - Os estimadores \( $\hat{\beta}_0$ \) e \( $\hat{\beta}_1$ \) são **não viesados**, ou seja, \( $E[\hat{\beta}_0] = \beta_0$ \) e \( $E[\hat{\beta}_1] = \beta_1$ \).
-   
+-   $n$ é o número de observações.
 
-. . . 
+-   $k$ é o número de variáveis independentes no modelo.
 
-
-2. **Eficiência**
-   - Os estimadores \( $\hat{\beta}_0$ \) e \( $\hat{\beta}_1$ \) são **eficientes** entre os estimadores lineares não viesados. Isso significa que eles têm a menor variância possível de todos os estimadores lineares não viesados, sob a suposição de homocedasticidade e erros i.i.d.
-
-. . . 
-
-3. **Consistência**
-   - Os estimadores são **consistentes**, ou seja, conforme o tamanho da amostra \( n \) cresce para o infinito, os estimadores \( $\hat{\beta}_0$ \) e \( $\hat{\beta}_1$ \) convergem para os valores verdadeiros \( $\beta_0$ \) e \( $\beta_1$ \).
-
-
-## 
-
-
-4. **Invariância sob Transformações Lineares**
-   - Se a variável \( y \) for transformada por uma transformação linear, o estimador de MQO para o parâmetro será alterado de forma consistente. Por exemplo, se \( $y_i$ \) for multiplicado por uma constante \( c \), o estimador \( $\hat{\beta}_1$ \) será multiplicado por \( c \).
-
-. . . 
-
-5. **Mínimos Quadrados**
-   - O estimador de MQO minimiza a soma dos quadrados dos resíduos
-   
-    $$
-    \sum_{i=1}^n (y_i - \beta_0 - \beta_1 x_i)^2
-    $$
-
-. . . 
-
-6. **Independência dos Resíduos**
-   - O modelo assume que os resíduos \( $\epsilon_i$ \) são **independentes** e **identicamente distribuídos** (i.i.d.), com média zero e variância constante.
-
-
-
-
-## Modelo de regressão linear múltipla
-<hr>
+## [Como interpretar o $R^2$ Ajustado]{style="font-size: 40px;"}
 
 <br/>
 
-<br/>
-
-O modelo de regressão linear múltipla é definido pela seguinte
-expressão:
+-   Indica a **proporção da variabilidade explicada** pelo modelo,
+    ajustada pelo número de variáveis.
 
 <br/>
 
-$$
-Y_i = \beta_0 + \beta_1X_1 + \cdots + \beta_pX_p + \epsilon_i, 
-$$ 
+-   Diferente do $R^2$ tradicional, ele **não aumenta necessariamente**
+    com mais variáveis no modelo.
 
 <br/>
 
-em que $\beta_0, \beta_1, \ldots, \beta_p$ são os parâmetros
-desconhecidos da regressão $X_1, \ldots, X_p$ são as covariáveis ou
-variáveis explicativas e $\epsilon_i$ é um erro aleatório e
-$i = 1, \ldots,n$.
+-   Um $R^2$ ajustado **mais alto** sugere um modelo melhor, mas é
+    importante compará-lo com outros critérios como AIC e BIC.
 
-## Suposições do erro:
-
-<hr>
+## Comparação e Uso Prático
 
 <br/>
 
-1.  $\mathbb{E}(\epsilon_i) = 0$ e $\text{Var}(\epsilon_i) = \sigma^2$,
-    para todo $i$ e $0 < \sigma^2 < \infty$.
-2.  $\text{Cov}( \epsilon_i, \epsilon_s ) = 0, \forall i \neq s$.
-3.  $\epsilon_i$ tem distribuição normal.
+| Critério       | Penaliza Complexidade? | Aplicação                                    |
+|------------------|-------------------|-----------------------------------|
+| **AIC**        | Sim (moderado)         | Escolha de modelos estatísticos e regressões |
+| **BIC**        | Sim (forte)            | Modelos bayesianos e regressão estatística   |
+| $R^2$ Ajustado | Sim (implícito)        | Avaliação de regressão linear e predição     |
+
+
+## Resumo dos critérios 
 
 <br/>
 
-Quando as suposições são violadas. Então, é recomendado usar outra
-distribuição mais adequada aos dados. 
+-   O **AIC** e o **BIC** são ideais para **comparação de modelos**.
+
+<br/>
+
+-   O **BIC** é mais rigoroso na penalização de modelos complexos, sendo
+    preferível quando se deseja simplicidade.
+
+<br/>
+
+-   O $R^2$ ajustado é útil para avaliar a qualidade de ajuste da
+    regressão, mas não deve ser usado isoladamente para seleção de
+    modelos.
+    
+    
+
+
