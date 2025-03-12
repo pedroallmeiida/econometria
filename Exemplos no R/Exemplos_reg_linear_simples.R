@@ -14,7 +14,7 @@ data("phillips")
 cig_lm <- lm(inf ~ inf_1, data = phillips)
 summary(cig_lm)
 
-
+plot(phillips$inf, phillips$inf_1)
 
 ### dados pacote AER
 data("CigarettesB")

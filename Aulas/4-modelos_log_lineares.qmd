@@ -26,12 +26,323 @@ editor:
     wrap: 72
 ---
 
-# Modelos log-lineares 
+# Formas Funcionais dos modelos de regressão
 
-::: {style="height:500px; font-size:25px; margin-left: 5px; margin-right: 5px"}
-#
+## modelos log lineares
+
+A classe de modelos lineares fornece algumas variações. Por meio de
+transformações das variáveis, podemos ter outros modelos em particular:
+
+1.  Modelo log linear
+2.  Modelos Semi-logarítmicos
+3.  Modelos recíprocos
+4.  Modelos recíprocos logarítmicos
+
+## Elasticidade 
+
+<br/>
+
+- Elasticidade é uma medida da sensibilidade de uma variável em relação a outra. 
+
+<br/>
+
+- Ela indica a variação percentual de uma variável quando há uma mudança percentual em outra variável associada. 
+
+<br/>
+
+- O conceito mais comum é a elasticidade do preço e demanda. 
+
+<br/> 
+
+- Com base na econometria, vamos estudar como medir a elasticidade com base em modelos. 
+
+
+## [Como medir a elasticidade: O modelo Log-Linear]{style="font-size: 40px;"} 
+
+Considere o seguinte modelo:
+
+$$
+\begin{align}
+\ln Y_i = \ln \beta_0 + \beta_1 \ln X_ i + \epsilon_i
+\end{align}
+$$
+
+em que $\ln$ é o logaritmo natural.
+
+<br/>
+
+Ainda, seja $\alpha = \ln \beta_0$, então a equação anterior pode ser
+reescrita como:
+
+$$
+\begin{align}
+\ln Y_i = \alpha + \beta_1 \ln X_ i + \epsilon_i
+\end{align}
+$$ 
+
+Este modelo é linear nos parâmetros $\alpha$ e $\beta_1$ e pode ser
+estimado por MQO. Esses modelos são denominados como modelos log-log,
+duplo-log ou log-linear.
+
+## [Interpretação do parâmetro de regressão]{style="font-size: 40px;"} 
+
+<br/>
+
+Um aspecto importante do modelo log-log que o tornou muito difundido nos
+trabalhos aplicados é que o coeficiente angular $\beta_1$ mede a
+**elasticidade** de $Y$ em relação a $X$, isto é, a variação percentual de
+$Y$ corresponde a uma dada variação percentual de $X$.
+
+## [Aspectos do modelo log-log]{style="font-size: 40px;"} 
+
+<br/>
+
+Podemos observar dois aspectos do modelo log-log:
+
+<br/>
+
+1.  Pressupões que o coeficiente da elasticidade entre $Y$ e $X$
+    permaneça constante ou seja, a variação em $\ln Y$ por unidade de
+    variação em $\ln X$ permanece a mesma com qualquer $\ln X$ utilizado
+    para medir a elasticidade.
+
+<br/>
+
+. . .
+
+2.  Embora $\hat \alpha$ e $\hat \beta_1$ sejam estimadores não viesados
+    para $\alpha$ e $\beta_1$, respectivamente, o estimador
+    $\hat \beta_0 = \text{antilog}(\hat\alpha)$ é um estimador viesado
+    para $\beta_0$. Contudo, na maioria dos problemas práticos, o termo
+    intercepto é de importância secundária.
+
+## [Diferença entre variação percentual e variação de pontos percentuais]{style="font-size: 40px;"} 
+
+<br/>
+
+É importante saber a diferença entre variação percentual e variação de
+pontos percentuais. Por exemplo, a taxa de desemprego normalmente é
+expressa na forma percentual. Considere uma taxa de $6\%$ se ela for
+para $8\%$, dizemos que a variação em pontos percentuais da taxa de
+desemprego foi de $2\%$. Enquantoque a variação percentual da taxa de
+desemprego será $\left( \frac{8-6}{6} \right) = 33\%$
+
+## Exemplo 1
+
+Suponha que queiramos encontrar a elasticidade das despesas com bens
+duráveis em relação às despesas totais de consumo pessoal. Chegaremos ao
+modelo final.
+
+$$
+\begin{align}
+&\ln \text{DESPDUR}_i = -7,54 + 1,63 \ln \text{DESPTCP}_i  \\
+&R^2 = 0,97
+\end{align}
+$$
+
+**Interpretação:**
+
+A elasticidade de $\text{DESPDUR}$ em relação a DESPTCP é de cerca de
+1,63, sugerindo que quando as despesas totais aumentam em $1\%$ as
+despesas com bens duráveis aumentam cerca de $1,63\%$ em média.
+
+## [Modelos Semi-logarítmicos: log-lin e lin-log]{style="font-size: 40px;"} 
+
+- Os modelos semi-logaritmicos, em especial o modelo log-lin, é capaz de
+medir a taxa de crescimento.
+
+- Economistas, empresários e governos frequentemente estão interessados em
+conhecer a taxa de crescimento de algumas variáveis econômicas como a
+população, PIB, emprego, produtividade, etc ...
+
+- Suponha que queiramos conhecer a taxa de crescimento das despesas
+pessoais com serviçõs. Denotemos por $Y_t$ as despesas reais com
+serviços no período $t$ e por $Y_0$ o valor inicial dessas despesas.
+Recordadndo a conhecidad fórmula dos juros compostos, temos:
+
+$$
+Y_t = Y_0(1 + r)^t 
+$$
+
+em que $r$ é a taxa de crescimento compota ao longo do tempo de $Y$.
+
+
+## [Forma do modelo log-lin]{style="font-size: 40px;"} 
+
+<br/>
+
+Usando o logaritmo natural na equação anterior temos :
+
+$$
+\ln Y_t = \ln Y_0 + t \ln(1 + r) 
+$$ 
+
+<br/>
+
+Agora considerando $\beta_0 = \ln Y_0$ e $\beta_1 = \ln(1 + r)$
+podemos reescrever a equação anterior como
+
+$$
+\ln Y_t = \beta_0 + \beta_1 \, t 
+$$ 
 
 
 
-::: 
+## Modelo Semi-logarítmico (log-lin)
+
+<br/>
+
+Incluindo o termo do **erro** na Equação anterior, temos
+
+<br/>
+
+$$
+\ln Y_t = \beta_0 + \beta_1 \, t + \epsilon_t
+$$ 
+
+
+<br/>
+
+Esse modelo é semelhante a qualquer outro modelo de regressão linear.
+A única diferença é que a **variável resposta é um logaritmo** de $Y$ e a
+**variável explicativa é o período de tempo** (1,2,3,4, ...).
+
+<br/>
+
+Esse modelo é denominado **modelo semi-logarítmico**, pois apenas uma das
+variáveis (Neste caso, Y) está em forma logarítmica. Nessas situações,
+vamos denominar esse tipo de modelo como **modelo log-lin**.
+
+## [Interpretação do coeficiente $\beta_1$]{style="font-size: 40px;"} 
+
+<br/>
+
+O coeficiente angular, $\beta_1$, mede a variação relativa constante em
+$Y$ para uma dada variação absoluta no valor da variável explicativa, $t$.
+Isto é,
+
+<br/>
+
+$$
+\beta_1 = \frac{ \text{Variação relativa em } Y  }{\text{Variação absoluta em } t}
+$$ 
+
+<br/>
+
+Se multiplicarmos a variação relativa de $Y$ por 100, a equação
+anterior nos dará a variação percentual ou taxa de crescimento de $Y$
+para uma variação absoluta em $t$. Assim, $\beta_1 \times 100$ é
+conhecido como semi elasticidade de $Y$ em relação a $t$.
+
+## Exemplo 2
+
+Usando o modelo log-lin, temos :
+
+$$
+\begin{align}
+&\widehat{\ln DESPSERV}_t = 8,32 + 0,007 \, t \\
+&R^2 = 0.99
+\end{align}
+$$ **Interpretação**
+
+Em um período que vai do $1º$ trimestre de 2003 ao $3º$ trimestre de
+2006, implica que as despesas com serviços aumentam a uma taxa
+trimestral de 0,7%.
+
+**Também podemos interpretar o intercepto:**
+
+Como $\beta_0 = \ln Y_0 \rightarrow Y_0 = \exp(\beta_0)$. Portanto,
+$Y_0 = \exp(8.32) \approx 4.105$ como o valor inicial de DESPSERV.
+
+## Modelo lin-log
+
+<br/>
+
+Diferentemente do modelo de crescimento que acabamos de discutir,
+suponha agora que queiramos conhecer a variação absoluta de Y dada uma
+variação percentual de X. Um modelo que poderia atingir esse propósito
+seria:
+
+<br/>
+
+$$
+Y_i = \beta_0 + \beta_1 \, \ln X_i + \epsilon_t
+$$ 
+
+<br/>
+
+Esse tipo de modelo chamamos de **modelo lin-log**.
+
+## [interpretação de $\beta_1$]{style="font-size: 40px;"} 
+
+Agora vamos interpretar o coeficiente angular, $\beta_1$,
+
+$$
+\beta_1 = \frac{ \text{Variação de  } Y  }{\text{Variação de } \ln X} = \frac{ \Delta Y  }{\Delta X/X}
+$$ 
+
+em que $\Delta$ denota a variação. Note que essa equação pode ser
+reescrita como
+
+$$
+\Delta Y = \beta_1 \left( \frac{\Delta X}{X} \right)
+$$ 
+
+Essa equação indica que a variação de Y é igual o coeficiente angular
+multiplicado pela variação relativa de X. Se $\frac{\Delta X}{X}$ variar em $0,01$ unidade (ou 1%), a variação
+absoluta de $Y$ será $\beta_1 \times 0,01$.
+
+
+## Exemplo 3
+
+Considere o exemplo das despesas com alimentação na India. Como a Figura
+de dispersão sugere, as despesas com alimentação aumentam mais
+lentamente do que as despesas totais, oque parececonfirmar a Lei de
+Engel. Assim, após ajustar o modelo log-lin:
+
+$$
+\begin{align}
+&\widehat{DESPALIMENTACAO}_i = -1283,9 + 257,27 \, \ln DESPTOTAL_i \\
+&R^2 = 0,38
+\end{align}
+$$ **Interpretação**
+
+Seja $\beta_1 = 257,27$, significa que um aumento de $1\%$, em média,
+nas despesas totais leva a um aumento de cerca de 2,57 rupias nas
+despesas com alimentos das 55 famílias incluídas na amostra.
+
+
+## Modelos Recíprocos
+
+Os modelos do tipo a seguir são conhecidos como recíprocos:
+
+$$
+Y_i = \beta_0 + \beta_1 \, \left(\frac{1}{X_i}\right) + \epsilon_t
+$$ Este modelo apresenta os seguintes aspectos: Quando $X$ aumenta
+indefinidamente, o termo $\beta_1 \, \left(\frac{1}{X_i}\right)$ tende a
+zero e $Y$ aproxima-se do valor limite ou assintótico de $\beta_0$.
+
+::: {style="text-align: center;"}
+![Fonte:Gujarati](images/clipboard-386614027.png)
+:::
+
+## Exemplo
+
+Note que através do gráfico de dispersão, à medidade que o PNB per capita aumenta, seria esperado uma redução da mortalidade infantil. Mas essa relação não é uma linha reta; No início até existe uma redução, mas a queda ameniza-se com o aumento contínuo do PNB per capita. 
+
+Após o ajuste do modelo, temos que: 
+
+
+$$
+\begin{align}
+&MI_i = 81,79 + 27.237*(1/PNB_i) \\
+&R^2 = 0,46
+\end{align}
+$$
+
+**Interpretação:**
+
+A medida que o PNB per capita aumenta indefinidamente, a mortalidade infantil aproxima-se de cerca de 82 óbitos por mil habitantes. 
+
+
 

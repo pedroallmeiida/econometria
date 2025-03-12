@@ -1,0 +1,208 @@
+---
+title: "Multicolinearidade"
+title-slide-attributes:
+  data-background-image: Marca_UEPB.png
+  data-background-size: contain
+  data-background-opacity: "0.15"
+author: "Professor: Pedro M. Almeida-Junior"
+institute: "Universidade Estadual da Paraíba"
+format: 
+  revealjs: 
+    width: 1000
+    margin: 0.1
+    logo: Marca_UEPB.png
+    theme: [default, hscroll.scss]
+    transition: slide
+    background-transition: fade
+    smaller: true
+    scrollable: true
+knitr:
+  opts_chunk:
+    message: false
+    warning: false
+css: hscroll.scss
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+# Multicolinearidade
+
+## [O que acontece quando as variáveis explicativas são correlacionadas?]{style="font-size: 40px;"}
+
+O termo multicolinearidade está relacionado com a existência de uma
+relaçãi linear "perfeita" ou "quase perfeita" entre algumas variáveis
+explicativas do modelo de regressão.
+
+No caso de um modelo com $k$ variáveis explicativas, $X_1, \ldots, X_n$,
+diz-se existir uma relação linear alta se a seguinte condição for
+satisfeita:
+
+$$
+\lambda_1 X_1 + \cdots + \lambda_k X_k + \epsilon = 0
+$$ em que $\lambda_1, \ldots, \lambda_k$ são constantes e $\epsilon$ é
+um erro estocástico.
+
+## [Diagrama de Ballentine]{style="font-size: 40px;"}
+
+A abordagem algébrica à multicolinearidade pode ser descritiva
+suscitamente pelo diagrama de Ballentine.
+
+
+::: {style="text-align: center;"}
+![Fonte:Gujarati & Porter](images/clipboard-3521918744.png){width=50%}
+:::
+
+
+## [Porque o modelo de regressão linear pressupõe que não há multicolinearidade ?]{style="font-size: 40px;"}
+
+- Se a multicolinearidade for perfeita, os coeficientes de regressão das variáveis $X_1, \ldots, X_n$ serão indeterminados e seus erros padrão infinitos. 
+
+- Se a multicolinearidade for quase perfeita, alta, os coeficientes de regressão, embora determinados, possuirão grandes erros padrão, oquee significa que os coeficientes não podem ser estimados com grande precisão. 
+
+##  [Quais as fontes de Multicolinearidade]{style="font-size: 40px;"} 
+
+1. Erro na coleta dos dados 
+
+2. Correlação entre as variáveis. Por exemplo, o consumo de energia elátrica ($X_1$) e o tamanho da casa ($X_2$), podem estar correlacionadas. 
+
+3. Especificação errada do modelo. 
+
+4. Um modelo com mais variáveis do que o tamanho da amostra. 
+
+## [Consequências teóricas da multicolinearidade]{style="font-size: 40px;"} 
+
+- Se as hipóteses do modelo de regressão linear forem satisfeitas, os estimadores de MQO serão os melhores estimadores não viesados para os parâmetros da regressão. 
+
+
+- Mesmmo se a multicolinearidade for multo alta, como no caso da quase multicolinearidade, os estimadores de MQO ainda conservrão as propriedades de melhores estimadores não viesados. 
+
+- Entretanto, mesmo que em termos teóricos as variáveis correlacionadas não impactem as propriedades dos estimadores. Ela pode dificultar as estimações para aquela amostra específica. 
+
+
+## [Consequências práticas da multicolinearidade]{style="font-size: 40px;"} 
+
+- Embora sejam os melhores estimadores não viesados para os coeficientes dae regressão, os estimadores de MQO podem possuir grandes variâncias e covariâncias tornando mais difícil uma estimação precisa. 
+
+- Devido a consequência 1, os intervalos de confiância tendem a ser muito mais amplos, levando â aceitação imediata da hipótese nula igual a zero. O que implca que a estatistica do teste t dos coeficientes tende a ser estatisticamente não significantes. 
+
+- O $R^2$ pode ser muito alto, mesmo que o modelo possua poucas variáveis com valor p significante para o teste t. 
+
+## [Detecção da multicolinearidade]{style="font-size: 40px;"} 
+
+Tendo estudado a natureza e consequências da multicolinearidade, a pergunta natural é: Como saber se a colinearidade está presente ?
+
+
+1. A multicolinearidade é uma questão de grau e não de tipo. A distinção significativa não é entre a presença e a ausência de multicolinearidade, mais entre vários graus. 
+
+
+2. A multicolinearidade é essencialmente um fenômeno amostral e não populacional. Portanto não existe testes de hipóteses para multicolinearidade. 
+
+
+## [Regras práticas para detectar multicolinearidade]{style="font-size: 40px;"} 
+
+1. $R^2$ alto mas com poucas variáveis significantes 
+
+2. Altas correlações entre pares de variáveis explicativas 
+
+3. Usar a métrica *Variance Inflation Factor* (VIF). 
+
+## VIF 
+
+- VIF é uma métrica usada para detectar multicolinearidade em modelos de regressão. Ele mede o quanto a variância de um coeficiente estimado é aumentada devido à correlação entre as variáveis independentes. 
+
+
+- Para uma variável $X_i$, o VIF é calculado como:  
+
+$$
+VIF_i = \frac{1}{1 - R_i^2}
+$$
+
+em que $R_i^2$ é o coeficiente de determinação da regressão de $X_i$ sobre todas as outras variáveis explicativas do modelo.  
+
+## Interpretação do VIF   
+
+<br/>
+
+ **VIF < 5**: Multicolinearidade baixa ou insignificante.  
+
+<br/>
+
+ **VIF entre 5 e 10**: Multicolinearidade moderada; pode ser preocupante.  
+
+<br/>
+
+ **VIF > 10**: Multicolinearidade alta, indicando que a variável pode estar fortemente correlacionada com outras.  
+
+
+## Valor alto do VIF 
+
+<br/>
+
+Se um VIF alto for encontrado, pode ser necessário:
+
+<br/>
+
+1. Remover uma das variáveis altamente correlacionadas.
+
+
+2. Transformar as variáveis (exemplo: PCA ou combinações lineares).
+
+
+3. Coletar mais dados para estabilizar as estimativas dos coeficientes.
+
+
+## Exemplo no R 
+
+<br/>
+
+```{r, echo = T}
+set.seed(123) 
+
+# Criando variáveis correlacionadas
+X1 <- rnorm(100, mean = 50, sd = 10)  # Variável explicativa
+X2 <- X1 + rnorm(100, mean = 0, sd = 2)  # X2 altamente correlacionado com X1
+X3 <- rnorm(100, mean = 30, sd = 5)  # Variável explicativa não correlacionada
+Y <- 5 + 2*X1 + 0.02*X2 + 1.5*X3 + rnorm(100, mean = 0, sd = 10)  # Variável resposta
+
+# Criando um data frame
+dados <- data.frame(Y, X1, X2, X3)
+
+# Verificando correlações
+cor(dados[, c("Y", "X1", "X2", "X3")])
+```
+
+
+
+## Ajuste do modelo
+
+
+```{r, echo = T}
+# Ajustando o modelo
+modelo <- lm(Y ~ X1 + X2 + X3, data = dados)
+
+# Resumo do modelo
+summary(modelo)
+
+
+# Cálculo do VIF
+car::vif(modelo)
+```
+
+
+## [Ajustando o modelo após remover a variável X2]{style="font-size: 40px;"}
+
+
+```{r, echo = T}
+# Ajustando o modelo
+modelo <- lm(Y ~ X2 + X3, data = dados)
+
+# Resumo do modelo
+summary(modelo)
+
+
+# Cálculo do VIF
+car::vif(modelo)
+```
+
+
