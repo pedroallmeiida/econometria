@@ -31,7 +31,7 @@ editor:
 ## [O que acontece quando as variáveis explicativas são correlacionadas?]{style="font-size: 40px;"}
 
 O termo multicolinearidade está relacionado com a existência de uma
-relaçãi linear "perfeita" ou "quase perfeita" entre algumas variáveis
+relação linear "perfeita" ou "quase perfeita" entre algumas variáveis
 explicativas do modelo de regressão.
 
 No caso de um modelo com $k$ variáveis explicativas, $X_1, \ldots, X_n$,
@@ -58,13 +58,13 @@ suscitamente pelo diagrama de Ballentine.
 
 - Se a multicolinearidade for perfeita, os coeficientes de regressão das variáveis $X_1, \ldots, X_n$ serão indeterminados e seus erros padrão infinitos. 
 
-- Se a multicolinearidade for quase perfeita, alta, os coeficientes de regressão, embora determinados, possuirão grandes erros padrão, oquee significa que os coeficientes não podem ser estimados com grande precisão. 
+- Se a multicolinearidade for quase perfeita, alta, os coeficientes de regressão, embora determinados, possuirão grandes erros padrão, o que significa que os coeficientes não podem ser estimados com grande precisão. 
 
 ##  [Quais as fontes de Multicolinearidade]{style="font-size: 40px;"} 
 
 1. Erro na coleta dos dados 
 
-2. Correlação entre as variáveis. Por exemplo, o consumo de energia elátrica ($X_1$) e o tamanho da casa ($X_2$), podem estar correlacionadas. 
+2. Correlação entre as variáveis. Por exemplo, o consumo de energia elétrica ($X_1$) e o tamanho da casa ($X_2$), podem estar correlacionadas. 
 
 3. Especificação errada do modelo. 
 
@@ -75,7 +75,7 @@ suscitamente pelo diagrama de Ballentine.
 - Se as hipóteses do modelo de regressão linear forem satisfeitas, os estimadores de MQO serão os melhores estimadores não viesados para os parâmetros da regressão. 
 
 
-- Mesmmo se a multicolinearidade for multo alta, como no caso da quase multicolinearidade, os estimadores de MQO ainda conservrão as propriedades de melhores estimadores não viesados. 
+- Mesmmo se a multicolinearidade for multo alta, como no caso da quase multicolinearidade, os estimadores de MQO ainda conservarão as propriedades de melhores estimadores não viesados. 
 
 - Entretanto, mesmo que em termos teóricos as variáveis correlacionadas não impactem as propriedades dos estimadores. Ela pode dificultar as estimações para aquela amostra específica. 
 
@@ -84,7 +84,7 @@ suscitamente pelo diagrama de Ballentine.
 
 - Embora sejam os melhores estimadores não viesados para os coeficientes dae regressão, os estimadores de MQO podem possuir grandes variâncias e covariâncias tornando mais difícil uma estimação precisa. 
 
-- Devido a consequência 1, os intervalos de confiância tendem a ser muito mais amplos, levando â aceitação imediata da hipótese nula igual a zero. O que implca que a estatistica do teste t dos coeficientes tende a ser estatisticamente não significantes. 
+- Devido a consequência 1, os intervalos de confiança tendem a ser muito mais amplos, levando a aceitação imediata da hipótese nula igual a zero. O que implica que a estatistica do teste t dos coeficientes tende a ser estatisticamente não significantes. 
 
 - O $R^2$ pode ser muito alto, mesmo que o modelo possua poucas variáveis com valor p significante para o teste t. 
 

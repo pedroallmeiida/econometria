@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="5-Multicolinearidade_files/libs/clipboard/clipboard.min.js"></script>
-<script src="5-Multicolinearidade_files/libs/quarto-html/tabby.min.js"></script>
-<script src="5-Multicolinearidade_files/libs/quarto-html/popper.min.js"></script>
-<script src="5-Multicolinearidade_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="5-Multicolinearidade_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="5-Multicolinearidade_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="5-Multicolinearidade_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="5-Multicolinearidade_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<script src="7-modelo_regressao_beta_files/libs/clipboard/clipboard.min.js"></script>
+<script src="7-modelo_regressao_beta_files/libs/quarto-html/tabby.min.js"></script>
+<script src="7-modelo_regressao_beta_files/libs/quarto-html/popper.min.js"></script>
+<script src="7-modelo_regressao_beta_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="7-modelo_regressao_beta_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="7-modelo_regressao_beta_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="7-modelo_regressao_beta_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="7-modelo_regressao_beta_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.4.551">
 
   <meta name="author" content="Professor: Pedro M. Almeida-Junior">
-  <title>Multicolinearidade</title>
+  <title>Modelo de regressão beta</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="5-Multicolinearidade_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="5-Multicolinearidade_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="7-modelo_regressao_beta_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="7-modelo_regressao_beta_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -95,12 +95,12 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="5-Multicolinearidade_files/libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="7-modelo_regressao_beta_files/libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="hscroll.scss">
-  <link href="5-Multicolinearidade_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="5-Multicolinearidade_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="5-Multicolinearidade_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="5-Multicolinearidade_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link href="7-modelo_regressao_beta_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="7-modelo_regressao_beta_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="7-modelo_regressao_beta_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="7-modelo_regressao_beta_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -393,7 +393,7 @@
     <div class="slides">
 
 <section id="title-slide" data-background-image="Marca_UEPB.png" data-background-opacity="0.15" data-background-size="contain" class="quarto-title-block center">
-  <h1 class="title">Multicolinearidade</h1>
+  <h1 class="title">Modelo de regressão beta</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -408,209 +408,122 @@ Professor: Pedro M. Almeida-Junior
 
 </section>
 <section>
-<section id="multicolinearidade" class="title-slide slide level1 center">
-<h1>Multicolinearidade</h1>
+<section id="modelo-de-regressão-beta" class="title-slide slide level1 center">
+<h1>Modelo de regressão beta</h1>
 
 </section>
-<section id="o-que-acontece-quando-as-variáveis-explicativas-são-correlacionadas" class="slide level2">
-<h2><span style="font-size: 40px;">O que acontece quando as variáveis explicativas são correlacionadas?</span></h2>
-<p>O termo multicolinearidade está relacionado com a existência de uma relação linear “perfeita” ou “quase perfeita” entre algumas variáveis explicativas do modelo de regressão.</p>
-<p>No caso de um modelo com <span class="math inline">\(k\)</span> variáveis explicativas, <span class="math inline">\(X_1, \ldots, X_n\)</span>, diz-se existir uma relação linear alta se a seguinte condição for satisfeita:</p>
+<section id="introdução" class="slide level2">
+<h2><span style="font-size: 40px;">Introdução</span></h2>
+<p><br></p>
+<p>O modelo de regressão beta é utilizado para modelar variáveis contínuas restritas ao intervalo (0,1). Este modelo é útil para lidar com proporções e taxas, sendo amplamente aplicado em diversas áreas como economia, biologia e engenharia.</p>
+</section>
+<section id="definição-da-distribuição-beta" class="slide level2">
+<h2>Definição da Distribuição Beta</h2>
+<p><br></p>
+<p>A <strong>distribuição beta</strong> é parametrizada por dois parâmetros, <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> , e tem função de densidade dada por:</p>
 <p><span class="math display">\[
-\lambda_1 X_1 + \cdots + \lambda_k X_k + \epsilon = 0
-\]</span> em que <span class="math inline">\(\lambda_1, \ldots, \lambda_k\)</span> são constantes e <span class="math inline">\(\epsilon\)</span> é um erro estocástico.</p>
-</section>
-<section id="diagrama-de-ballentine" class="slide level2">
-<h2><span style="font-size: 40px;">Diagrama de Ballentine</span></h2>
-<p>A abordagem algébrica à multicolinearidade pode ser descritiva suscitamente pelo diagrama de Ballentine.</p>
-<div style="text-align: center;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/clipboard-3521918744.png" style="width:50.0%"></p>
-<figcaption>Fonte:Gujarati &amp; Porter</figcaption>
-</figure>
-</div>
-</div>
-</section>
-<section id="porque-o-modelo-de-regressão-linear-pressupõe-que-não-há-multicolinearidade" class="slide level2">
-<h2><span style="font-size: 40px;">Porque o modelo de regressão linear pressupõe que não há multicolinearidade ?</span></h2>
-<ul>
-<li><p>Se a multicolinearidade for perfeita, os coeficientes de regressão das variáveis <span class="math inline">\(X_1, \ldots, X_n\)</span> serão indeterminados e seus erros padrão infinitos.</p></li>
-<li><p>Se a multicolinearidade for quase perfeita, alta, os coeficientes de regressão, embora determinados, possuirão grandes erros padrão, o que significa que os coeficientes não podem ser estimados com grande precisão.</p></li>
-</ul>
-</section>
-<section id="quais-as-fontes-de-multicolinearidade" class="slide level2 scrollable">
-<h2><span style="font-size: 40px;">Quais as fontes de Multicolinearidade</span></h2>
-<ol type="1">
-<li><p>Erro na coleta dos dados</p></li>
-<li><p>Correlação entre as variáveis. Por exemplo, o consumo de energia elétrica (<span class="math inline">\(X_1\)</span>) e o tamanho da casa (<span class="math inline">\(X_2\)</span>), podem estar correlacionadas.</p></li>
-<li><p>Especificação errada do modelo.</p></li>
-<li><p>Um modelo com mais variáveis do que o tamanho da amostra.</p></li>
-</ol>
-</section>
-<section id="consequências-teóricas-da-multicolinearidade" class="slide level2">
-<h2><span style="font-size: 40px;">Consequências teóricas da multicolinearidade</span></h2>
-<ul>
-<li><p>Se as hipóteses do modelo de regressão linear forem satisfeitas, os estimadores de MQO serão os melhores estimadores não viesados para os parâmetros da regressão.</p></li>
-<li><p>Mesmmo se a multicolinearidade for multo alta, como no caso da quase multicolinearidade, os estimadores de MQO ainda conservarão as propriedades de melhores estimadores não viesados.</p></li>
-<li><p>Entretanto, mesmo que em termos teóricos as variáveis correlacionadas não impactem as propriedades dos estimadores. Ela pode dificultar as estimações para aquela amostra específica.</p></li>
-</ul>
-</section>
-<section id="consequências-práticas-da-multicolinearidade" class="slide level2">
-<h2><span style="font-size: 40px;">Consequências práticas da multicolinearidade</span></h2>
-<ul>
-<li><p>Embora sejam os melhores estimadores não viesados para os coeficientes dae regressão, os estimadores de MQO podem possuir grandes variâncias e covariâncias tornando mais difícil uma estimação precisa.</p></li>
-<li><p>Devido a consequência 1, os intervalos de confiança tendem a ser muito mais amplos, levando a aceitação imediata da hipótese nula igual a zero. O que implica que a estatistica do teste t dos coeficientes tende a ser estatisticamente não significantes.</p></li>
-<li><p>O <span class="math inline">\(R^2\)</span> pode ser muito alto, mesmo que o modelo possua poucas variáveis com valor p significante para o teste t.</p></li>
-</ul>
-</section>
-<section id="detecção-da-multicolinearidade" class="slide level2 scrollable">
-<h2><span style="font-size: 40px;">Detecção da multicolinearidade</span></h2>
-<p>Tendo estudado a natureza e consequências da multicolinearidade, a pergunta natural é: Como saber se a colinearidade está presente ?</p>
-<ol type="1">
-<li><p>A multicolinearidade é uma questão de grau e não de tipo. A distinção significativa não é entre a presença e a ausência de multicolinearidade, mais entre vários graus.</p></li>
-<li><p>A multicolinearidade é essencialmente um fenômeno amostral e não populacional. Portanto não existe testes de hipóteses para multicolinearidade.</p></li>
-</ol>
-</section>
-<section id="regras-práticas-para-detectar-multicolinearidade" class="slide level2 scrollable">
-<h2><span style="font-size: 40px;">Regras práticas para detectar multicolinearidade</span></h2>
-<ol type="1">
-<li><p><span class="math inline">\(R^2\)</span> alto mas com poucas variáveis significantes</p></li>
-<li><p>Altas correlações entre pares de variáveis explicativas</p></li>
-<li><p>Usar a métrica <em>Variance Inflation Factor</em> (VIF).</p></li>
-</ol>
-</section>
-<section id="vif" class="slide level2">
-<h2>VIF</h2>
-<ul>
-<li><p>VIF é uma métrica usada para detectar multicolinearidade em modelos de regressão. Ele mede o quanto a variância de um coeficiente estimado é aumentada devido à correlação entre as variáveis independentes.</p></li>
-<li><p>Para uma variável <span class="math inline">\(X_i\)</span>, o VIF é calculado como:</p></li>
-</ul>
-<p><span class="math display">\[
-VIF_i = \frac{1}{1 - R_i^2}
+f(y; \alpha, \beta) = \frac{y^{\alpha-1} (1-y)^{\beta-1}}{B(\alpha,\beta)}, \quad 0 &lt; y &lt; 1
 \]</span></p>
-<p>em que <span class="math inline">\(R_i^2\)</span> é o coeficiente de determinação da regressão de <span class="math inline">\(X_i\)</span> sobre todas as outras variáveis explicativas do modelo.</p>
+<p>em que a função beta é definida como:</p>
+<p><span class="math display">\[
+B(\alpha, \beta) = \int_0^1 t^{\alpha-1} (1-t)^{\beta-1} dt.
+\]</span></p>
 </section>
-<section id="interpretação-do-vif" class="slide level2">
-<h2>Interpretação do VIF</h2>
+<section id="média-e-variância-da-distribuição-beta" class="slide level2">
+<h2>Média e variância da distribuição beta</h2>
 <p><br></p>
-<p><strong>VIF &lt; 5</strong>: Multicolinearidade baixa ou insignificante.</p>
-<p><br></p>
-<p><strong>VIF entre 5 e 10</strong>: Multicolinearidade moderada; pode ser preocupante.</p>
-<p><br></p>
-<p><strong>VIF &gt; 10</strong>: Multicolinearidade alta, indicando que a variável pode estar fortemente correlacionada com outras.</p>
+<p>A média e a variância da distribuição beta são dadas por:</p>
+<p><span class="math display">\[
+E(Y) = \frac{\alpha}{\alpha + \beta}, \quad \text{Var}(Y) = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)}.
+\]</span></p>
 </section>
-<section id="valor-alto-do-vif" class="slide level2 scrollable">
-<h2>Valor alto do VIF</h2>
+<section id="modelo-de-regressão-beta-1" class="slide level2">
+<h2>Modelo de Regressão Beta</h2>
 <p><br></p>
-<p>Se um VIF alto for encontrado, pode ser necessário:</p>
+<p>No modelo de regressão beta, a média da distribuição beta é modelada como uma função das covariáveis , geralmente usando uma função de ligação logito:</p>
+<p><span class="math display">\[
+g(\mu_i) = \eta_i = x_i^T \beta.
+\]</span></p>
 <p><br></p>
-<ol type="1">
-<li><p>Remover uma das variáveis altamente correlacionadas.</p></li>
-<li><p>Transformar as variáveis (exemplo: PCA ou combinações lineares).</p></li>
-<li><p>Coletar mais dados para estabilizar as estimativas dos coeficientes.</p></li>
-</ol>
+<p>A dispersão do modelo pode ser controlada por um parâmetro de precisão , de forma que os parâmetros da distribuição beta são reescritos como:</p>
+<p><span class="math display">\[
+\alpha_i = \mu_i \phi, \quad \beta_i = (1 - \mu_i) \phi.
+\]</span></p>
 </section>
-<section id="exemplo-no-r" class="slide level2">
-<h2>Exemplo no R</h2>
+<section id="estimação-dos-parâmetros" class="slide level2">
+<h2>Estimação dos Parâmetros</h2>
 <p><br></p>
+<p>Os parâmetros do modelo são estimados via máxima verossimilhança, onde a função de log-verossimilhança é:</p>
+<p><br></p>
+<p><span class="math display">\[
+\begin{align}
+l(\beta, \phi) = \sum_{i=1}^{n} \left[ \log \Gamma(\phi) - \log \Gamma(\mu_i \phi) - \log \Gamma((1 - \mu_i) \phi) \\
+\quad \quad \quad + (\mu_i \phi - 1) \log y_i + ((1 - \mu_i) \phi - 1) \log (1 - y_i) \right].
+\end{align}
+\]</span></p>
+<p><br></p>
+<p>A estimação pode ser realizada usando métodos numéricos como o algoritmo de Fisher-Scoring.</p>
+</section>
+<section id="aplicação-no-r" class="slide level2">
+<h2>Aplicação no R</h2>
+<p>A regressão beta pode ser ajustada no R usando o pacote betareg. Um exemplo básico de implementação é:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">set.seed</span>(<span class="dv">123</span>) </span>
-<span id="cb1-2"><a href=""></a></span>
-<span id="cb1-3"><a href=""></a><span class="co"># Criando variáveis correlacionadas</span></span>
-<span id="cb1-4"><a href=""></a>X1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">10</span>)  <span class="co"># Variável explicativa</span></span>
-<span id="cb1-5"><a href=""></a>X2 <span class="ot">&lt;-</span> X1 <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">2</span>)  <span class="co"># X2 altamente correlacionado com X1</span></span>
-<span id="cb1-6"><a href=""></a>X3 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">30</span>, <span class="at">sd =</span> <span class="dv">5</span>)  <span class="co"># Variável explicativa não correlacionada</span></span>
-<span id="cb1-7"><a href=""></a>Y <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">+</span> <span class="dv">2</span><span class="sc">*</span>X1 <span class="sc">+</span> <span class="fl">0.02</span><span class="sc">*</span>X2 <span class="sc">+</span> <span class="fl">1.5</span><span class="sc">*</span>X3 <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">10</span>)  <span class="co"># Variável resposta</span></span>
-<span id="cb1-8"><a href=""></a></span>
-<span id="cb1-9"><a href=""></a><span class="co"># Criando um data frame</span></span>
-<span id="cb1-10"><a href=""></a>dados <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Y, X1, X2, X3)</span>
-<span id="cb1-11"><a href=""></a></span>
-<span id="cb1-12"><a href=""></a><span class="co"># Verificando correlações</span></span>
-<span id="cb1-13"><a href=""></a><span class="fu">cor</span>(dados[, <span class="fu">c</span>(<span class="st">"Y"</span>, <span class="st">"X1"</span>, <span class="st">"X2"</span>, <span class="st">"X3"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>           Y         X1         X2         X3
-Y  1.0000000  0.8121671  0.8006240  0.2036442
-X1 0.8121671  1.0000000  0.9778890 -0.1291760
-X2 0.8006240  0.9778890  1.0000000 -0.1212568
-X3 0.2036442 -0.1291760 -0.1212568  1.0000000</code></pre>
-</div>
-</div>
-</section>
-<section id="ajuste-do-modelo" class="slide level2">
-<h2>Ajuste do modelo</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="co"># Ajustando o modelo</span></span>
-<span id="cb3-2"><a href=""></a>modelo <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X1 <span class="sc">+</span> X2 <span class="sc">+</span> X3, <span class="at">data =</span> dados)</span>
-<span id="cb3-3"><a href=""></a></span>
-<span id="cb3-4"><a href=""></a><span class="co"># Resumo do modelo</span></span>
-<span id="cb3-5"><a href=""></a><span class="fu">summary</span>(modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="fu">library</span>(betareg)</span>
+<span id="cb1-2"><a href=""></a><span class="fu">data</span>(<span class="st">"GasolineYield"</span>, <span class="at">package =</span> <span class="st">"betareg"</span>)</span>
+<span id="cb1-3"><a href=""></a>model <span class="ot">&lt;-</span> <span class="fu">betareg</span>(yield <span class="sc">~</span> batch <span class="sc">+</span> temp, <span class="at">data =</span> GasolineYield)</span>
+<span id="cb1-4"><a href=""></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm(formula = Y ~ X1 + X2 + X3, data = dados)
+betareg(formula = yield ~ batch + temp, data = GasolineYield)
 
-Residuals:
-     Min       1Q   Median       3Q      Max 
--24.9138  -6.5392   0.5664   6.7033  25.3210 
+Quantile residuals:
+    Min      1Q  Median      3Q     Max 
+-2.1396 -0.5698  0.1202  0.7040  1.7506 
 
-Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  11.0225     9.7019   1.136  0.25874    
-X1            1.7135     0.5543   3.091  0.00261 ** 
-X2            0.2511     0.5473   0.459  0.64742    
-X3            1.3852     0.2245   6.171 1.61e-08 ***
+Coefficients (mean model with logit link):
+              Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) -6.1595710  0.1823247 -33.784  &lt; 2e-16 ***
+batch1       1.7277289  0.1012294  17.067  &lt; 2e-16 ***
+batch2       1.3225969  0.1179020  11.218  &lt; 2e-16 ***
+batch3       1.5723099  0.1161045  13.542  &lt; 2e-16 ***
+batch4       1.0597141  0.1023598  10.353  &lt; 2e-16 ***
+batch5       1.1337518  0.1035232  10.952  &lt; 2e-16 ***
+batch6       1.0401618  0.1060365   9.809  &lt; 2e-16 ***
+batch7       0.5436922  0.1091275   4.982 6.29e-07 ***
+batch8       0.4959007  0.1089257   4.553 5.30e-06 ***
+batch9       0.3857930  0.1185933   3.253  0.00114 ** 
+temp         0.0109669  0.0004126  26.577  &lt; 2e-16 ***
+
+Phi coefficients (precision model with identity link):
+      Estimate Std. Error z value Pr(&gt;|z|)    
+(phi)    440.3      110.0   4.002 6.29e-05 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 
-Residual standard error: 10.52 on 96 degrees of freedom
-Multiple R-squared:  0.757, Adjusted R-squared:  0.7494 
-F-statistic: 99.67 on 3 and 96 DF,  p-value: &lt; 2.2e-16</code></pre>
+Type of estimator: ML (maximum likelihood)
+Log-likelihood:  84.8 on 12 Df
+Pseudo R-squared: 0.9617
+Number of iterations: 51 (BFGS) + 3 (Fisher scoring) </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href=""></a><span class="co"># Cálculo do VIF</span></span>
-<span id="cb5-2"><a href=""></a>car<span class="sc">::</span><span class="fu">vif</span>(modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="co"># Cálculo do VIF</span></span>
+<span id="cb3-2"><a href=""></a>car<span class="sc">::</span><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       X1        X2        X3 
-22.925760 22.879614  1.017576 </code></pre>
+<pre><code>          GVIF Df GVIF^(1/(2*Df))
+batch 1.372466  9        1.017745
+temp  1.373446  1        1.171941</code></pre>
 </div>
 </div>
 </section>
-<section id="ajustando-o-modelo-após-remover-a-variável-x2" class="slide level2">
-<h2><span style="font-size: 40px;">Ajustando o modelo após remover a variável X2</span></h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href=""></a><span class="co"># Ajustando o modelo</span></span>
-<span id="cb7-2"><a href=""></a>modelo <span class="ot">&lt;-</span> <span class="fu">lm</span>(Y <span class="sc">~</span> X2 <span class="sc">+</span> X3, <span class="at">data =</span> dados)</span>
-<span id="cb7-3"><a href=""></a></span>
-<span id="cb7-4"><a href=""></a><span class="co"># Resumo do modelo</span></span>
-<span id="cb7-5"><a href=""></a><span class="fu">summary</span>(modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = Y ~ X2 + X3, data = dados)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--28.5222  -7.0979   0.6116   6.9142  25.9863 
-
-Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  15.5048    10.0070   1.549    0.125    
-X2            1.9048     0.1202  15.841  &lt; 2e-16 ***
-X3            1.3498     0.2338   5.772 9.38e-08 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 10.97 on 97 degrees of freedom
-Multiple R-squared:  0.7328,    Adjusted R-squared:  0.7273 
-F-statistic:   133 on 2 and 97 DF,  p-value: &lt; 2.2e-16</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href=""></a><span class="co"># Cálculo do VIF</span></span>
-<span id="cb9-2"><a href=""></a>car<span class="sc">::</span><span class="fu">vif</span>(modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      X2       X3 
-1.014923 1.014923 </code></pre>
-</div>
-</div>
+<section id="conclusão" class="slide level2">
+<h2>Conclusão</h2>
+<p><br></p>
+<p>O modelo de regressão beta é uma ferramenta poderosa para modelagem de variáveis restritas ao intervalo (0,1). Ele permite uma flexibilidade significativa ao considerar diferentes funções de ligação e ao modelar a dispersão separadamente.</p>
+</section>
+<section id="referências" class="slide level2">
+<h2>Referências</h2>
+<p><br></p>
+<p>Ferrari, S. L. P., &amp; Cribari-Neto, F. (2004). Beta regression for modelling rates and proportions. Journal of Applied Statistics, 31(7), 799-815.</p>
 <div class="quarto-auto-generated-content">
 <p><img src="Marca_UEPB.png" class="slide-logo"></p>
 <div class="footer footer-default">
@@ -622,19 +535,19 @@ F-statistic:   133 on 2 and 97 DF,  p-value: &lt; 2.2e-16</code></pre>
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="5-Multicolinearidade_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="7-modelo_regressao_beta_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="5-Multicolinearidade_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="5-Multicolinearidade_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="5-Multicolinearidade_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="5-Multicolinearidade_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="5-Multicolinearidade_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="7-modelo_regressao_beta_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="7-modelo_regressao_beta_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="7-modelo_regressao_beta_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="7-modelo_regressao_beta_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="7-modelo_regressao_beta_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="5-Multicolinearidade_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="5-Multicolinearidade_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="5-Multicolinearidade_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="5-Multicolinearidade_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="7-modelo_regressao_beta_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="7-modelo_regressao_beta_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="7-modelo_regressao_beta_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="7-modelo_regressao_beta_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>

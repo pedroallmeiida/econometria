@@ -1,0 +1,133 @@
+---
+title: "Modelo de regressão beta"
+title-slide-attributes:
+  data-background-image: Marca_UEPB.png
+  data-background-size: contain
+  data-background-opacity: "0.15"
+author: "Professor: Pedro M. Almeida-Junior"
+institute: "Universidade Estadual da Paraíba"
+format: 
+  revealjs: 
+    width: 1000
+    margin: 0.1
+    logo: Marca_UEPB.png
+    theme: [default, hscroll.scss]
+    transition: slide
+    background-transition: fade
+    smaller: true
+    scrollable: true
+knitr:
+  opts_chunk:
+    message: false
+    warning: false
+css: hscroll.scss
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+# Modelo de regressão beta
+
+## [Introdução]{style="font-size: 40px;"}
+
+<br/>
+
+O modelo de regressão beta é utilizado para modelar variáveis contínuas restritas ao intervalo (0,1). Este modelo é útil para lidar com proporções e taxas, sendo amplamente aplicado em diversas áreas como economia, biologia e engenharia.
+
+## Definição da Distribuição Beta
+
+<br/>
+
+A **distribuição beta** é parametrizada por dois parâmetros, $\alpha$ e $\beta$ , e tem função de densidade dada por:
+
+$$
+ f(y; \alpha, \beta) = \frac{y^{\alpha-1} (1-y)^{\beta-1}}{B(\alpha,\beta)}, \quad 0 < y < 1
+$$
+
+em que a função beta é definida como:
+
+$$
+ B(\alpha, \beta) = \int_0^1 t^{\alpha-1} (1-t)^{\beta-1} dt.
+$$
+
+## Média e variância da distribuição beta
+
+<br/>
+
+A média e a variância da distribuição beta são dadas por:
+
+$$
+E(Y) = \frac{\alpha}{\alpha + \beta}, \quad \text{Var}(Y) = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)}.
+$$
+
+
+## Modelo de Regressão Beta
+
+<br/>
+
+No modelo de regressão beta, a média  da distribuição beta é modelada como uma função das covariáveis , geralmente usando uma função de ligação logito:
+
+$$
+ g(\mu_i) = \eta_i = x_i^T \beta.
+$$
+
+<br/>
+
+A dispersão do modelo pode ser controlada por um parâmetro de precisão , de forma que os parâmetros da distribuição beta são reescritos como:
+
+$$
+ \alpha_i = \mu_i \phi, \quad \beta_i = (1 - \mu_i) \phi.
+$$
+
+## Estimação dos Parâmetros
+
+<br/>
+
+Os parâmetros do modelo são estimados via máxima verossimilhança, onde a função de log-verossimilhança é:
+
+<br/>
+
+
+$$ 
+\begin{align}
+ l(\beta, \phi) = \sum_{i=1}^{n} \left[ \log \Gamma(\phi) - \log \Gamma(\mu_i \phi) - \log \Gamma((1 - \mu_i) \phi) \\
+ \quad \quad \quad + (\mu_i \phi - 1) \log y_i + ((1 - \mu_i) \phi - 1) \log (1 - y_i) \right].
+\end{align}
+$$
+
+
+<br/>
+
+A estimação pode ser realizada usando métodos numéricos como o algoritmo de Fisher-Scoring.
+
+## Aplicação no R
+
+A regressão beta pode ser ajustada no R usando o pacote betareg. Um exemplo básico de implementação é:
+
+
+
+```{r, echo = T}
+library(betareg)
+data("GasolineYield", package = "betareg")
+model <- betareg(yield ~ batch + temp, data = GasolineYield)
+summary(model)
+
+# Cálculo do VIF
+car::vif(model)
+```
+
+## Conclusão
+
+<br/>
+
+O modelo de regressão beta é uma ferramenta poderosa para modelagem de variáveis restritas ao intervalo (0,1). Ele permite uma flexibilidade significativa ao considerar diferentes funções de ligação e ao modelar a dispersão separadamente.
+
+## Referências
+
+<br/>
+
+Ferrari, S. L. P., & Cribari-Neto, F. (2004). Beta regression for modelling rates and proportions. Journal of Applied Statistics, 31(7), 799-815.
+
+
+
+

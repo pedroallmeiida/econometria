@@ -6,8 +6,6 @@ library(wooldridge)
 
 # leitura do dataset
 ?data("wage1")
-
-
 View(wage1)
 
 ## Modelo 1: Modelo de regressão linear simples
@@ -21,7 +19,7 @@ summary(wageModel)
 
 
 ## Modelo 3: Modelo de regressão log-lin
-wageModel <- lm( lwage ~ educ + exper + tenure, data = wage1)
+wageModel <- lm( lwage ~ educ  + exper + tenure, data = wage1)
 summary(wageModel)
 
 
@@ -45,3 +43,6 @@ names(dados_idh)
 ## Modelo 1: Modelo de regressão linear simples
 idhModel <- lm( idh ~ log(media_de_anos_escola), data = dados_idh)
 summary(idhModel)
+
+
+
