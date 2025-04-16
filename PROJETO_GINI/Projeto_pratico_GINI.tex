@@ -1,0 +1,150 @@
+%% This document created by Scientific Word (R) Version 3.0
+
+
+
+\documentclass[thmsa,11pt]{article}
+
+\usepackage[utf8]{inputenc}% acentuação (se esse não funcionar use a linha abaixo)
+%\usepackage[latin1]{inputenc}% acentuação (windows)
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{hyperref}
+\usepackage[portuguese]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{comment}
+
+\usepackage{tikz, xcolor}
+
+
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{natbib}
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{amsmath,amssymb}
+\usepackage{longtable}
+\usepackage{tcolorbox}
+\usetikzlibrary{shadows}
+\usepackage{colortbl} % Pacote necessário para \cellcolor
+\usepackage{xcolor} % Adiciona suporte para cores
+
+%TCIDATA{OutputFilter=latex2.dll}
+%TCIDATA{TCIstyle=article/art4.lat,lart,article}
+%TCIDATA{CSTFile=article.cst}
+%TCIDATA{Created=Tue Jan 16 17:54:47 2001}
+%TCIDATA{LastRevised=Sun Feb 16 19:37:46 2003}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+\setlength{\textheight}{19.5cm}
+\newtheorem{teorema}{Teorema}[subsection]
+\newtheorem{obs}[teorema]{Observa\c{c}\~{a}o}
+\newtheorem{defini}[teorema]{Defini\c{c}\~{a}o}
+\newtheorem{prop}[teorema]{Proposi\c{c}\~{a}o}
+\newtheorem{corolario}[teorema]{Corol\'{a}rio}
+\newtheorem{lema}[teorema]{Lema}
+\newtheorem{exercicio}[teorema]{Questão}
+\newenvironment{demons}{\noindent{\bf Demonstra\c{c}\~ao:} }{\hfill $\Box$ \newline}
+\newenvironment{demonsembox}{\noindent{\bf Demonstra\c{c}\~ao:} }{}
+\newenvironment{exemplos}{\noindent {\bf Exemplos:} }{\hfill $\Box$ \newline}
+\newenvironment{exemplo}{\vspace{12pt} \noindent{\bf Exemplo:} }{\hfill $\Box$ \newline}
+\newenvironment{exemplosembox}{\vspace{12pt} \noindent {\bf Exemplos:} }{}
+\newenvironment{demdoteo}{\noindent {\bf Demonstra\c{c}\~{a}o do Teorema}}{\hfill $\Box$ \newline}
+\newenvironment{demdolem}{\noindent {\bf Demonstra\c{c}\~{a}o do Lema}}{\hfill $\Box$ \newline}
+\newcommand{\adj}{\mathop{\rm ad}\nolimits}
+\newcommand{\diag}{\mathop{\rm diag}\nolimits}
+\newcommand{\esseo}{\mathop{\rm SO}\nolimits}
+\newcommand{\gera}{\mathop{\rm ger}\nolimits}
+\newcommand{\ident}{\mathop{\rm id}\nolimits}
+\newcommand{\imag}{\mathop{\rm im}\nolimits}
+\newcommand{\partre}{\mathop{\rm Re}\nolimits}
+\newcommand{\partim}{\mathop{\rm Im}\nolimits}
+\newcommand{\trac}{\mathop{\rm tr}\nolimits}
+\hyphenation{con-si-de-ran-do-se ca-sa}
+
+
+\begin{document}
+
+
+\author{Professor: Pedro M.A. Junior}
+\title{PROJETO PRÁTICO \\ Modelo de regressão beta aplicado ao índice de Gini}
+
+
+\maketitle
+
+
+Para a realização do projeto prático vamos utilizar os dados socioeconômicos no repositório \url{https://github.com/pedroallmeiida/econometria/PROJETO_GINI/dados_tratado/dados_final_projeto.csv}. 
+De acordo com o banco de dados selecionado construa um modelo de regressão beta para avaliar o comportamento da variável resposta chamada GINI. A seguir vamos apresentar uma descrição das variáveis que vamos utilizar: 
+
+\begin{table}[htb!]
+	\tiny
+	\caption{Descrição das variáveis}\label{tab:descricao}	
+	\centering
+	\begin{tabular}{|c|l|}
+		\hline
+		\verb|GINI| & Índice de Gini \\
+		\verb|POP| & Quantidade de habitantes \\ 
+		\verb|COD_MUNICIPIO| & Código do município \\
+		\verb|NM_MUNICIPIO| & Nome do município \\
+		\verb|UF| & Unidade de Federação do município \\
+		\verb|AGUA_ENCANADA_PRINCIPAL| & Taxa de domicílios que possui ligação a rede geral de água  \\
+		& \, e a utiliza como forma principal \\
+		\verb|NAO_POSSUI_AGUA_ENCANADA| & Taxa de domicílios que não possui ligação da água com a rede geral \\
+		\verb|REDE_GERAL_REDE_PLUVIAL_OU_FOSSA_LIGADA_A_REDE| & Taxa de domicílios com coleta adequada de esgoto \\
+		\verb|NAO_TINHAM_BANHEIRO_NEM_SANITARIO| & Taxa de domicílios que não possuem banheiro nem sanitário \\
+		\verb|PERC_COLETA_LIXO| & Percentual de domicílios com coleta de lixo\\
+		\verb|PERC_ACESSO_INTERNET| & Percentual de domicílios com acesso a internet \\
+		\verb|PERC_ALFA_15MAIS| & Percentual de pessoas alfabetizadas com 15 anos ou mais\\
+		\verb|QTD_FORM_SUP_EDUC| & Quantidade de pessoas com curso superior em educação \\
+		\verb|QTD_FORM_SUP| & Quantidade de pessoas com curso superior \\
+		\verb|TX_CRESC_GEO| & Taxa de crescimento geométrico\\
+		\verb|DENSIDADE_DEMO| & Densidade demográfica \\
+		\verb|INDICE_ENVELHECIMENTO| & Índice de envelhecimento \\
+		\verb|POP_PRETA| & População de pessoas pretas\\
+		\verb|POP_PARDA| & População de pessoas pardas \\
+		\verb|PIB_BRUTO| & Produto interno bruto\\
+		\verb|PARTICIPACAO_PIB_UF| & Participação do PIB na Unidade de Federação\\
+		\verb|PARTICIPACAO_PIB_MESOREGIAO| & Participação do PIB na Mesoregião \\
+		\verb|TX_PESSOAS_PRETA_OU_PARDA| & Taxa de pessoas pretas ou pardas \\
+		\verb|PIB_POR_HABITANTE| & PIB per capita\\
+		\verb|TX_HOMICIDIO| & Taxa de homicídios\\
+		\verb|TX_SUICIDIO| & Taxa de suicídio\\
+		\verb|EXPORTACAO_PERCAPITA| & Exportação per capita\\
+		\verb|POUPANCA_PERCAPITA| & Poupança per capita\\
+		\verb|ARRECADACAO_TOTAL_IMPOSTOS_PERCAPITA| & Arrecadação total impostos per capita\\
+		\verb|DESP_CIENCIA_TEC_PERCAPITA| & Despesas com ciência e tecnologia per capita\\
+		\verb|VALOR_TOTAL_BF_PERCAPITA| & Valor total Gasto com Bolsa Família per capita\\
+		\verb|DESP_LEGISLATIVO_PERCAPITA| & Despesa com o Legislativo per capita \\
+		\verb|RECEITA_IPTU_PERCAPITA| & Receita IPTU per capita\\
+		\verb|COTA_PARTE_FPM_PERCAPITA| & Cota Parte Fundo de Participação dos Municípios per capita \\
+		\verb|DESP_SAUDE_SANEAMENTO_PERCAPITA| & Despesa com saúde saneamento per capita\\
+		\verb|OPERACOES_CREDITO_PERCAPITA| & Operações de crédito per capita\\
+		\verb|INDICADOR_REND_P_FUND| & Indicador de rendimento P para o ensino fundamental\\
+		\verb|SAEB_MEDIA_FUND| & Nota média da SAEB para o ensino fundamental\\
+		\verb|IDEB_2021_FUND| & Nota do IDEB para o ensino fundamental\\
+		\verb|INDICADOR_REND_P_ENS_MEDIO| & Indicador de rendimento P para o ensino médio\\
+		\verb|SAEB_MEDIA_ENS_MEDIO| & Nota média da SAEB para o ensino médio\\
+		\verb|IDEB_2021_ENS_MEDIO| & Nota do IDEB para o ensino médio\\
+		\hline
+	\end{tabular}
+\end{table}
+
+
+\bigskip
+
+\textbf{O projeto deve cumprir as seguintes etapas: }
+
+\begin{enumerate}
+	\item Objetivo e introdução;
+	\item Estudo descritivo das variáveis utilizadas;
+	\item Indique quais variáveis têm associação significativa com a variável resposta (Gini);
+	\item Apresente o modelo final e suas métricas finais;
+	\item Interprete os resultados obtidos pelo modelo;
+	\item Conclua destacando seus principais resultados;
+	\item Organize um repositório no seu github com todos os arquivos necessário para rodar o projeto (scripts no R, notebooks, slides, relatórios, etc ...)
+\end{enumerate}
+
+
+
+\end{document}

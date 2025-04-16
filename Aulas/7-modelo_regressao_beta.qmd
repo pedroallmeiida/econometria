@@ -32,13 +32,17 @@ editor:
 
 <br/>
 
-O modelo de regressão beta é utilizado para modelar variáveis contínuas restritas ao intervalo (0,1). Este modelo é útil para lidar com proporções e taxas, sendo amplamente aplicado em diversas áreas como economia, biologia e engenharia.
+O modelo de regressão beta é utilizado para modelar variáveis contínuas
+restritas ao intervalo (0,1). Este modelo é útil para lidar com
+proporções e taxas, sendo amplamente aplicado em diversas áreas como
+economia, biologia e engenharia.
 
 ## Definição da Distribuição Beta
 
 <br/>
 
-A **distribuição beta** é parametrizada por dois parâmetros, $\alpha$ e $\beta$ , e tem função de densidade dada por:
+A **distribuição beta** é parametrizada por dois parâmetros, $\alpha$ e
+$\beta$ , e tem função de densidade dada por:
 
 $$
  f(y; \alpha, \beta) = \frac{y^{\alpha-1} (1-y)^{\beta-1}}{B(\alpha,\beta)}, \quad 0 < y < 1
@@ -60,12 +64,13 @@ $$
 E(Y) = \frac{\alpha}{\alpha + \beta}, \quad \text{Var}(Y) = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)}.
 $$
 
-
 ## Modelo de Regressão Beta
 
 <br/>
 
-No modelo de regressão beta, a média  da distribuição beta é modelada como uma função das covariáveis , geralmente usando uma função de ligação logito:
+No modelo de regressão beta, a média da distribuição beta é modelada
+como uma função das covariáveis , geralmente usando uma função de
+ligação logito:
 
 $$
  g(\mu_i) = \eta_i = x_i^T \beta.
@@ -73,7 +78,8 @@ $$
 
 <br/>
 
-A dispersão do modelo pode ser controlada por um parâmetro de precisão , de forma que os parâmetros da distribuição beta são reescritos como:
+A dispersão do modelo pode ser controlada por um parâmetro de precisão ,
+de forma que os parâmetros da distribuição beta são reescritos como:
 
 $$
  \alpha_i = \mu_i \phi, \quad \beta_i = (1 - \mu_i) \phi.
@@ -83,10 +89,10 @@ $$
 
 <br/>
 
-Os parâmetros do modelo são estimados via máxima verossimilhança, onde a função de log-verossimilhança é:
+Os parâmetros do modelo são estimados via máxima verossimilhança, onde a
+função de log-verossimilhança é:
 
 <br/>
-
 
 $$ 
 \begin{align}
@@ -95,16 +101,15 @@ $$
 \end{align}
 $$
 
-
 <br/>
 
-A estimação pode ser realizada usando métodos numéricos como o algoritmo de Fisher-Scoring.
+A estimação pode ser realizada usando métodos numéricos como o algoritmo
+de Fisher-Scoring.
 
 ## Aplicação no R
 
-A regressão beta pode ser ajustada no R usando o pacote betareg. Um exemplo básico de implementação é:
-
-
+A regressão beta pode ser ajustada no R usando o pacote betareg. Um
+exemplo básico de implementação é:
 
 ```{r, echo = T}
 library(betareg)
@@ -120,14 +125,20 @@ car::vif(model)
 
 <br/>
 
-O modelo de regressão beta é uma ferramenta poderosa para modelagem de variáveis restritas ao intervalo (0,1). Ele permite uma flexibilidade significativa ao considerar diferentes funções de ligação e ao modelar a dispersão separadamente.
+O modelo de regressão beta é uma ferramenta poderosa para modelagem de
+variáveis restritas ao intervalo (0,1). Ele permite uma flexibilidade
+significativa ao considerar diferentes funções de ligação e ao modelar a
+dispersão separadamente.
 
 ## Referências
 
 <br/>
 
-Ferrari, S. L. P., & Cribari-Neto, F. (2004). Beta regression for modelling rates and proportions. Journal of Applied Statistics, 31(7), 799-815.
+Ferrari, S. L. P., & Cribari-Neto, F. (2004). Beta regression for
+modelling rates and proportions. Journal of Applied Statistics, 31(7),
+799-815. [Link do artigo da regressão
+beta](chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://www.ime.usp.br/~sferrari/beta.pdf)
 
-
-
-
+Cribari-Neto, F. and Zeileis, A. 2010. Beta Regression in R. Journal of
+Statistical Software 34(2). [Link do pacote
+betareg](www.jstatsoft.org/index.php/jss/article/download/v034i02/378)
