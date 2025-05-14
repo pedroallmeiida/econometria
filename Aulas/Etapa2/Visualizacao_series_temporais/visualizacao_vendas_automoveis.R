@@ -18,7 +18,11 @@ plot.ts( y  )
 
 plot(decompose(y))
 
-df_auto$Data_formatada <- as.Date(paste0("01/", df_auto$Data), format = "%d/%m/%Y")
+df_auto$Data_formatada <- as.Date(paste0("01/", df_auto$Data), format = "%d-%m-%Y")
+
+df_auto$Data_formatada <- as.Date( df_auto$Data, format = "%d-%m-%Y")
+
+
 View(df_auto)
 
 ### transformando para o formato tstible
