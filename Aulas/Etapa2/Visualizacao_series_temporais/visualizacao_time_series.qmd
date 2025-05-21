@@ -45,7 +45,6 @@ plot(decompose(y))
 
 ```
 
-
 ## Usando o formato tstible
 
 Em alguns casos é necessário transformar o formato das datas para que possamos usar o formato tstible.
@@ -78,9 +77,7 @@ serie_mensal %>%
 
 ```
 
-
 ### Série trimestral
-
 
 ```{r}
 
@@ -185,4 +182,3 @@ serie_trimestral %>%
 
 
 ```
-
