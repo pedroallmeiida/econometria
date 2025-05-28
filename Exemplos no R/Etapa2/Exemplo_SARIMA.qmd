@@ -1,0 +1,139 @@
+---
+title: "Emprego mensal nas áreas de lazer e hotelaria nos EUA"
+format: html
+editor: visual
+---
+
+
+## <span style="font-size: 50px;"> Aplicação do modelo SARIMA </span>
+
+Descreveremos a modelagem ARIMA sazonal usando dados mensais de emprego nos EUA para empregos nas áreas de lazer e hotelaria de janeiro de 2001 a setembro de 2019, como podemos ver a seguir.
+
+```{r, message=FALSE, warning=F}
+## Bibliotecas de séries temporais
+library(TSA)
+library(forecast)
+library(fpp3)
+```
+
+```{r, warning=FALSE}
+
+## Visualização da série
+leisure <- us_employment %>%
+  filter(Title == "Leisure and Hospitality",
+         year(Month) > 2000) %>%
+  mutate(Employed = Employed/1000) %>%
+  select(Month, Employed)
+autoplot(leisure, Employed) +
+  labs(title = "Desemprego nos EUA: Lazer e hotelaria",
+       y="Número de pessoas (Milhões)")
+
+```
+
+Como a série é claramente não estacionária, vamos aplicar o operador diferença:
+
+```{r, warning=FALSE}
+
+#### Comportamento da serie
+plot_serie = leisure %>%
+  autoplot(difference(Employed, 12) ) +
+  labs(title="Sazonalidade diferenciada",
+       y="")
+
+
+### ACF e PACF das series 
+acf = leisure %>%
+  ACF(difference(Employed, 12) %>% difference(), lag_max = 36 ) %>% 
+  autoplot() + labs(title="ACF")
+
+pacf = leisure %>%
+  PACF(difference(Employed, 12) %>% difference(), lag_max = 36) %>% 
+  autoplot() + labs(title="PACF") 
+
+
+gridExtra::grid.arrange(plot_serie, acf, pacf,layout_matrix=rbind(c(1,1),c(2,3) ))
+
+```
+
+Note ainda que a primeira diferenciação não é o bastante para tornar a série estacionária. Dessa forma, é importante diferenciá-la novamente.
+
+```{r, warning=FALSE}
+
+#### Comportamento da serie
+plot_serie = leisure %>%
+  autoplot(difference(Employed, 12) %>% difference()) +
+  labs(title="Segunda diferenciação",
+       y="")
+
+
+### ACF e PACF das series 
+acf = leisure %>%
+  ACF(difference(Employed, 12) %>% difference(), lag_max = 36 ) %>% 
+  autoplot() + labs(title="ACF")
+
+pacf = leisure %>%
+  PACF(difference(Employed, 12) %>% difference(), lag_max = 36) %>% 
+  autoplot() + labs(title="PACF") 
+
+
+gridExtra::grid.arrange(plot_serie, acf, pacf,layout_matrix=rbind(c(1,1),c(2,3) ))
+
+
+
+
+
+
+```
+
+Analisando a Figura acima, vamos analisar as funções ACF e PACF sob duas perspectiva, (i) Não sazonal e (ii) Sazonais.
+
+-   Para a parte não sazonal:
+
+    -   Note que a ACF sai forte no lag 1, sugerindo então um processo MA(1)
+
+    -   Note que a PACF sai forte nos dois primeiros lags, sugerindo então um processo AR(2)
+
+-   Para a parte sazonal:
+
+    -   Note que a ACF sai forte apenas lag 12, sugerindo um modelo MA$(1)_{12}$
+
+    -   Note que a PACF sai forte no lag 12 e 36 (além do lag 24), sugerindo um processo AR(3)
+
+Portanto como tivemos uma diferenciação sazonal e outra diferenciação. Processos como ARIMA $(0,1,1)(0,1,1)_{12}$ e ARIMA $(2,1,0)(3,1,0)_{12}$ são possíveis candidatos de melhor modelo.
+
+Para realizar o ajuste do modelo SARIMA vamos usar a função `model` da seguinte maneira:
+
+```{r}
+
+fit <- leisure %>%
+  model(
+    arima012011 = ARIMA(Employed ~ pdq(0,1,1) + PDQ(0,1,1)),
+    arima210011 = ARIMA(Employed ~ pdq(2,1,0) + PDQ(3,1,0)),
+    auto = ARIMA(Employed, stepwise = FALSE, approx = FALSE)
+  )
+fit
+
+```
+
+Para a escolha do melhor modelo vamos usar o critério de seleção AICc ou BIC uando a função `glance`.
+
+```{r, warning=F}
+
+glance(fit) %>% arrange(AICc) %>% select(.model:BIC)
+
+```
+
+Portanto, o modelo `auto`, que representa uma ARIMA $(2,1,0)(1,1,1)_{12}$ foi o melhor modelo pois apresenta o [menor AICc]{.underline}.
+
+## <span style="font-size: 60px;"> Previsão no R </span>
+
+```{r, warning=F}
+
+forecast(fit, h=36) %>%
+  filter(.model=='auto') %>%
+  autoplot(leisure) +
+  labs(title = "Desemprego: Lazer e hotelaria",
+       y="Número de pessoas (Milhões)")
+
+```
+

@@ -1,0 +1,204 @@
+---
+title: "Modelo ARIMA"
+format: html
+editor: visual
+---
+
+
+## <span style="font-size: 50px;"> Aplicação do modelo ARIMA </span>
+
+Descreveremos a modelagem ARIMA usando dados mensais de emprego nos EUA para empregos nas áreas de lazer e hotelaria de janeiro de 2001 a setembro de 2019, como podemos ver a seguir.
+
+```{r, message=FALSE, warning=F}
+## Bibliotecas de séries temporais
+library(TSA)
+library(forecast)
+library(fpp3)
+```
+
+```{r, warning=FALSE}
+
+
+serie <- global_economy %>%
+  filter(Code == "CAF")
+
+head(serie) 
+tail(serie)
+
+```
+
+Como a série é claramente não estacionária, vamos aplicar o operador diferença:
+
+```{r, warning=FALSE}
+
+#### Comportamento da serie
+plot_serie = serie %>%
+  autoplot(Exports) +
+  labs(title="Exportação de produtos",
+       y="")
+
+
+### ACF e PACF das series 
+acf = serie %>%
+  ACF(Exports, lag_max = 20) %>% 
+  autoplot() + labs(title="ACF")
+
+pacf = serie %>%
+  PACF(Exports, lag_max = 20) %>% 
+  autoplot() + labs(title="PACF") 
+
+gridExtra::grid.arrange(plot_serie, acf, pacf,layout_matrix=rbind(c(1,1),c(2,3) ))
+
+#### Verificando se a série é estacionária 
+serie %>%
+  features(Exports, unitroot_kpss)
+
+```
+
+Como podemos ver, a série é não estacionária, assim é necessário aplicar o perador diferença para torná-la estacionária. 
+
+
+```{r, warning=FALSE}
+
+### Aplicando o operador diferença 
+plot_serieD = serie %>%
+  autoplot( difference(Exports) ) +
+  labs(title="Exportação",
+       y="")
+
+
+### ACF e PACF das series 
+acf_D = serie %>%
+  ACF(difference(Exports), lag_max = 20) %>% 
+  autoplot() + labs(title="ACF")
+
+pacf_D = serie %>%
+  PACF(difference(Exports), lag_max = 20) %>% 
+  autoplot() + labs(title="PACF") 
+
+gridExtra::grid.arrange(plot_serieD, acf_D, pacf_D,layout_matrix=rbind(c(1,1),c(2,3) ))
+
+```
+
+```{r}
+
+# Definindo a base de dados em treinamento e teste
+train <- serie %>%
+  filter_index("1981" ~ "2012")
+tail(train)
+
+test <- serie %>%
+  filter_index("2013" ~ . );test
+
+```
+
+Para realizar o ajuste do modelo SARIMA vamos usar a função `model` da seguinte maneira:
+
+```{r}
+#### Comportamento da serie
+plot_serie = train %>%
+  autoplot(Exports) +
+  labs(title="Central African Republic exports",
+       y="% of GDP")
+
+
+### ACF e PACF das series 
+acf = train %>%
+  ACF(Exports, lag_max = 20) %>% 
+  autoplot() + labs(title="ACF")
+
+pacf = train %>%
+  PACF(Exports, lag_max = 20) %>% 
+  autoplot() + labs(title="PACF") 
+
+gridExtra::grid.arrange(plot_serie, acf, pacf,layout_matrix=rbind(c(1,1),c(2,3) ))
+
+#### Verificando se a série é estacionária 
+train %>%
+  features(Exports, unitroot_kpss)
+
+#### Aplicando o operador diferença 
+plot_serieD = train %>%
+  autoplot( difference(Exports) ) +
+  labs(title="Central African Republic exports",
+       y="% of GDP")
+
+### ACF e PACF das series 
+acf_D = train %>%
+  ACF(difference(Exports), lag_max = 20) %>% 
+  autoplot() + labs(title="ACF")
+
+
+pacf_D = train %>%
+  PACF(difference(Exports), lag_max = 20) %>% 
+  autoplot() + labs(title="PACF") 
+
+gridExtra::grid.arrange(plot_serieD, acf_D, pacf_D,layout_matrix=rbind(c(1,1),c(2,3) ))
+
+#### Verificando se a série diferenciada é estacionária 
+
+train %>%
+  features(difference(Exports), unitroot_kpss)
+
+
+```
+
+Para a escolha do melhor modelo vamos usar o critério de seleção AICc ou BIC uando a função `glance`.
+
+```{r, warning=F}
+
+#### FORECAST
+
+caf_fit <- train %>%
+  model(arima210 = ARIMA(Exports ~ pdq(2,1,0)),
+        arima012 = ARIMA(Exports ~ pdq(0,1,2)),
+        arima212 = ARIMA(Exports ~ pdq(2,1,2)),
+        rb = ARIMA(Exports ~ pdq(0,1,0)),
+        auto = ARIMA(Exports ) )
+
+caf_fit %>% select(auto)
+
+## Desempenho dos modelos
+glance(caf_fit)
+
+#### Comportamento dos residuos
+caf_fit %>%
+  select(rb) %>%
+  gg_tsresiduals()
+
+
+
+# GERANDO UMA PREVISAO h = 2 passos 
+caf_fc <- caf_fit %>% forecast(h = 5)
+caf_fc
+
+# Grafico da serie com as previsoes 
+caf_fc %>% filter( (.model == 'rb') | (.model == 'arima212')  ) %>%
+  autoplot(serie, level = NULL) +
+  labs(
+    y = "Exportações",
+    title = "Previsão"
+  ) +
+  guides(colour = guide_legend(title = "Forecast"))
+
+
+
+accuracy(caf_fc, test)
+
+
+```
+
+Portanto, o modelo `auto`, que representa uma ARIMA $(2,1,0)(1,1,1)_{12}$ foi o melhor modelo pois apresenta o [menor AICc]{.underline}.
+
+## <span style="font-size: 60px;"> Previsão no R </span>
+
+```{r, warning=F}
+
+forecast(caf_fit, h=6) %>%
+  filter(.model=='auto') %>%
+  autoplot(serie) +
+  labs(title = "Desemprego: Lazer e hotelaria",
+       y="Número de pessoas (Milhões)")
+
+```
+

@@ -1,0 +1,52 @@
+---
+title: "Bibliotecas para extrair as cotações de ações listadas na bolsa de valor"
+author: "Pedro Almeida"
+format: html
+editor: visual
+---
+
+
+# Bibliotecas para extração dos dados
+
+## Pacote quantmod
+
+```{r, message=FALSE, warning=F}
+## Bibliotecas de séries temporais
+library(quantmod)
+
+getSymbols("PETR4.SA", src = "yahoo")
+head(PETR4.SA)
+tail(PETR4.SA)
+chartSeries(PETR4.SA, theme = chartTheme("white"), TA = "addVo()")
+```
+
+
+
+## Pacote tidyquant
+
+```{r, warning=FALSE}
+
+library(tidyquant)
+
+dados <- tq_get("PETR4.SA", from = "2024-01-01", to = "2025-05-30")
+head(dados)
+tail(dados)
+
+```
+
+
+## Pacote yfr
+
+
+```{r, warning=FALSE}
+
+library(yfR)
+cod_acao <- c("PETR4.SA", "VALE3.SA", "AMBEV3.SA")
+dados_acoes <- BatchGetSymbols(tickers = cod_acao,
+                              first.date = as.Date("2020-01-30"),
+                              last.date = Sys.Date(),
+                              freq.data = "daily")
+
+head(dados_acoes$df.tickers)
+
+```
