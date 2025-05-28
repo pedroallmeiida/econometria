@@ -7,7 +7,7 @@ editor: visual
 
 ## <span style="font-size: 50px;"> Aplicação do modelo ARIMA </span>
 
-Descreveremos a modelagem ARIMA usando dados mensais de emprego nos EUA para empregos nas áreas de lazer e hotelaria de janeiro de 2001 a setembro de 2019, como podemos ver a seguir.
+Descreveremos a modelagem ARIMA usando dados anuais sobre a economia global, nesse caso vamos avaliar o comportamento das exportações. 
 
 ```{r, message=FALSE, warning=F}
 ## Bibliotecas de séries temporais
@@ -92,7 +92,7 @@ test <- serie %>%
 
 ```
 
-Para realizar o ajuste do modelo SARIMA vamos usar a função `model` da seguinte maneira:
+Para realizar o ajuste do modelo ARIMA vamos usar a função `model` da seguinte maneira:
 
 ```{r}
 #### Comportamento da serie
@@ -120,8 +120,8 @@ train %>%
 #### Aplicando o operador diferença 
 plot_serieD = train %>%
   autoplot( difference(Exports) ) +
-  labs(title="Central African Republic exports",
-       y="% of GDP")
+  labs(title="Exportação CAF",
+       y="Exportação")
 
 ### ACF e PACF das series 
 acf_D = train %>%
@@ -168,7 +168,7 @@ caf_fit %>%
 
 
 
-# GERANDO UMA PREVISAO h = 2 passos 
+# GERANDO UMA PREVISAO h = 5 passos 
 caf_fc <- caf_fit %>% forecast(h = 5)
 caf_fc
 
@@ -188,17 +188,17 @@ accuracy(caf_fc, test)
 
 ```
 
-Portanto, o modelo `auto`, que representa uma ARIMA $(2,1,0)(1,1,1)_{12}$ foi o melhor modelo pois apresenta o [menor AICc]{.underline}.
+Portanto, o model ARIMA$(2,1,2)$ foi o melhor modelo pois apresenta o [menor MAPE]{.underline}.
 
 ## <span style="font-size: 60px;"> Previsão no R </span>
 
 ```{r, warning=F}
 
-forecast(caf_fit, h=6) %>%
-  filter(.model=='auto') %>%
+forecast(caf_fit, h=5) %>%
+  filter(.model=='arima212') %>%
   autoplot(serie) +
-  labs(title = "Desemprego: Lazer e hotelaria",
-       y="Número de pessoas (Milhões)")
+  labs(title = "Exportação CAF",
+       y="Exportação")
 
 ```
 

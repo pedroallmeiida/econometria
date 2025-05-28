@@ -127,7 +127,7 @@ window.Quarto = {
 
 <section id="aplicação-do-modelo-arima" class="level2">
 <h2 class="anchored" data-anchor-id="aplicação-do-modelo-arima"><span style="font-size: 50px;"> Aplicação do modelo ARIMA </span></h2>
-<p>Descreveremos a modelagem ARIMA usando dados mensais de emprego nos EUA para empregos nas áreas de lazer e hotelaria de janeiro de 2001 a setembro de 2019, como podemos ver a seguir.</p>
+<p>Descreveremos a modelagem ARIMA usando dados anuais sobre a economia global, nesse caso vamos avaliar o comportamento das exportações.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Bibliotecas de séries temporais</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(TSA)</span>
@@ -259,7 +259,7 @@ window.Quarto = {
 5 Central African Re… CAF    2017 1.95e9   4.30   NA     31.8    12.5    4659080</code></pre>
 </div>
 </div>
-<p>Para realizar o ajuste do modelo SARIMA vamos usar a função <code>model</code> da seguinte maneira:</p>
+<p>Para realizar o ajuste do modelo ARIMA vamos usar a função <code>model</code> da seguinte maneira:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### Comportamento da serie</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>plot_serie <span class="ot">=</span> train <span class="sc">%&gt;%</span></span>
@@ -297,8 +297,8 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### Aplicando o operador diferença </span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>plot_serieD <span class="ot">=</span> train <span class="sc">%&gt;%</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>( <span class="fu">difference</span>(Exports) ) <span class="sc">+</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Central African Republic exports"</span>,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">"% of GDP"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Exportação CAF"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">"Exportação"</span>)</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="do">### ACF e PACF das series </span></span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>acf_D <span class="ot">=</span> train <span class="sc">%&gt;%</span></span>
@@ -374,7 +374,7 @@ window.Quarto = {
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GERANDO UMA PREVISAO h = 2 passos </span></span>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GERANDO UMA PREVISAO h = 5 passos </span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>caf_fc <span class="ot">&lt;-</span> caf_fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">5</span>)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>caf_fc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -421,16 +421,16 @@ window.Quarto = {
 5 rb       Central Africa… Test   1.42  1.59  1.42  10.6  10.6   NaN   NaN 0.120</code></pre>
 </div>
 </div>
-<p>Portanto, o modelo <code>auto</code>, que representa uma ARIMA <span class="math inline">\((2,1,0)(1,1,1)_{12}\)</span> foi o melhor modelo pois apresenta o <u>menor AICc</u>.</p>
+<p>Portanto, o model ARIMA<span class="math inline">\((2,1,2)\)</span> foi o melhor modelo pois apresenta o <u>menor MAPE</u>.</p>
 </section>
 <section id="previsão-no-r" class="level2">
 <h2 class="anchored" data-anchor-id="previsão-no-r"><span style="font-size: 60px;"> Previsão no R </span></h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">forecast</span>(caf_fit, <span class="at">h=</span><span class="dv">6</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(.model<span class="sc">==</span><span class="st">'auto'</span>) <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">forecast</span>(caf_fit, <span class="at">h=</span><span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(.model<span class="sc">==</span><span class="st">'arima212'</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(serie) <span class="sc">+</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Desemprego: Lazer e hotelaria"</span>,</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">"Número de pessoas (Milhões)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Exportação CAF"</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y=</span><span class="st">"Exportação"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
