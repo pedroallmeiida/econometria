@@ -1,0 +1,35 @@
+---
+title: "Projeto 2 - Volatilidade"
+author: "Pedro Almeida"
+format: html
+editor: visual
+---
+
+## Estudo de volatilidade no mercado de capitais
+
+**Objetivo:** Suponha que você é um analista no mercado de capitais. Faça um estudo sobre a volatilidade dos retornos dos preços negociados das ações e criptomoedas. Para isso, selecione uma ação negociada na bolsa de valor e uma criptomoeda. Utilize os modelos ARCH e GARCH.  
+
+*Obs: Defina apenas um período (por exemplo, semanal, mensal ou trimestral).*
+
+
+O desenvolvimento do projeto objetiva-se a apresentação dos seguintes tópicos:
+
+-   Introdução sobre a ação e criptomoeda selecionada
+
+-   Contextualizar o problema e propor uma solução usando séries temporais
+
+-   Falar sobre os modelos ARCH e GARCH
+
+-   Realizar uma análise descritiva dos seus dados, explicando em detalhes suas características (Neste caso, explique o comportamento do retorno dos ativos)
+
+- Comparar várias combinações de modelos ARCH e GARCH e identificar, usando métricas, quais os melhores 
+
+- Realizar um processo de previsão ( h = 6 (se mensal) e h = 4 (se trimestral) ) e justificar a escolha do melhor modelo para fazer previsão
+
+-  Interpretar os resultados finais e propor uma ação com base nas previsões realizadas
+
+- Apresentar o resultado do projeto final (Dia 25/06)
+
+O relatório deve ser construído usando Rmarkdown ou quarto. Enquanto a linguagem de programação fica de livre escolha: R ou Python ! 
+
+

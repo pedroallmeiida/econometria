@@ -1,0 +1,37 @@
+---
+title: "Projeto 1"
+author: "Pedro Almeida"
+format: html
+editor: visual
+---
+
+## Previsão de Séries Financeiras usando o ARIMA/SARIMA
+
+**Objetivo:** Escolha duas séries financeiras (Obrigatoriamente uma série que apresenta tendência e outra sazonalidade) e proponha um modelo de previsão baseado nos modelos ARIMA e SARIMA. 
+
+*Obs: Defina apenas um período (por exemplo, mensal ou trimestral).*
+
+
+O desenvolvimento do projeto objetiva-se a apresentação dos seguintes tópicos:
+
+-   Introdução sobre o tema da série
+
+-   Contextualizar o problema e propor uma solução usando séries temporais
+
+-   Falar sobre os modelos ARIMA e SARIMA
+
+-   Realizar uma análise descritiva dos seus dados, explicando em detalhes suas características
+
+-   Identificação dos possíveis modelos usando acf e pacf
+
+- Comparar todos possiveis modelos e identificar, usando métricas, quais os melhores (incluir os modelos de suavização exponencial)
+
+-   Realizar um processo de previsão (ARIMA: h = 6 (se mensal) e h = 4 (se trimestral) e SARIMA: h = 36 (se mensal) e h = 12 (se trimestral) ) e justificar a escolha do melhor modelo para fazer previsão
+
+-   Interpretar os resultados finais e propor uma solução com base nos dados para o seu problema
+
+- Apresentar o resultado do projeto final (Dia 18/06)
+
+O relatório deve ser construído usando Rmarkdown ou quarto. Enquanto a linguagem de programação fica de livre escolha: R ou Python ! 
+
+

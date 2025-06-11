@@ -5,7 +5,6 @@ format: html
 editor: visual
 ---
 
-
 # Bibliotecas para extração dos dados
 
 ## Pacote quantmod
@@ -20,8 +19,6 @@ tail(PETR4.SA)
 chartSeries(PETR4.SA, theme = chartTheme("white"), TA = "addVo()")
 ```
 
-
-
 ## Pacote tidyquant
 
 ```{r, warning=FALSE}
@@ -34,9 +31,7 @@ tail(dados)
 
 ```
 
-
 ## Pacote yfr
-
 
 ```{r, warning=FALSE}
 
